@@ -1,4 +1,9 @@
-  ToDo:
+ **DO NOT mess with the Github in browser. Only make changes in Cloud 9. Then follow these commands:
+ git add *
+ git commit -m "CHANGES MADE"
+ git push 
+ 
+ ToDo:
   Abdul and Jordan added to the github.
   
   Class Approach - make a ton of classes (steal from Lab Resources/useful in asg2/lab17)
@@ -8,4 +13,4 @@
  Github set up. 
  
   
-  
+  test 2
