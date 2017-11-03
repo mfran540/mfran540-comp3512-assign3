@@ -1,0 +1,154 @@
+header h1.mdl-layout-title {
+    font-size: 32px;
+    color: white;
+}
+header h1 span {
+    color: #ff6e40;
+}
+
+.profile {
+   background-color: #263238;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+.profile span {
+   font-size: 90%;   
+}
+.avatar {
+  width: 96px;
+  height: 96px;  
+    border-radius: 50%;
+    
+    display: block;
+}
+
+.page-content {
+  margin: 10px;   
+}
+
+main header {
+    margin: 0;
+    min-height: 40px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+main header h4 {
+  margin: 0; 
+    
+    font-size: 18px;
+}
+
+
+.card-lesson {
+  min-width: 200px;
+  min-height: 100px;
+}
+.card-lesson > .mdl-card__actions {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+}
+.card-lesson > .mdl-card__title {
+  align-items: flex-start;
+}
+.card-lesson > .mdl-card__title > h4 {
+  margin-top: 0;
+}
+.card-lesson > .mdl-card__title, .card-lesson > .mdl-card__supporting-text, .card-lesson > .mdl-card__actions, .card-lesson > .mdl-card__actions > .mdl-button {
+  _color: #fff;
+}
+
+
+.inlinesparkline  {width: 70%;}
+
+
+/*index.php formatting*/
+  .demo-card-square.mdl-card {
+    width: 320px;
+    height: 320px;
+    float: left;
+    margin: 1rem;
+    position: relative;
+    
+  }
+  
+  .demo-card-square.mdl-card:hover {
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12), 0 5px 5px -3px rgba(0, 0, 0, .2);
+  }
+  
+  .demo-card-square > .mdl-card__title {
+    color: #fff;
+    
+  }
+  
+  .demo-card-square > .mdl-card__accent {
+    background: #ff9800;
+  }
+  
+  .dash{
+    width: 100%;
+    /*background-color: rgba(192,192,192,.8);*/
+    background-color: rgb(96,125,139);
+    padding-left:5px;
+    padding-bottom: 3px;
+  }
+  
+  .unicard {
+    background: url('../images/university.jpg');
+  }
+  
+  .empcard {
+    background: url('../images/employees.jpg');
+  }
+  
+  .bookcard {
+    background: url('../images/books.jpg');
+  }
+  
+  .aboutcard {
+    background: url('../images/aboutus.jpg');
+  }
+  
+  #booktable {
+    border-collapse: collapse;
+  }
+  
+  #booktable th, td {
+    padding:1em;
+    border: 4px solid grey;
+  }
+  
+  #booktable tr:hover {
+    background-color: #673ab7;
+    color: white;
+  }
+  
+  #booktable tr:first-child:hover {
+    background-color:white;
+    color: rgba(0, 0, 0, 0.54);
+  }
+  
+  
+  #singleImage {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #singlebooktitle {
+    text-align: center;
+  }
+  
+  #cardtitle {
+    background-color: lightgrey;
+  }
+  
+  .singleerror {
+    padding-left:1em;
+  }
+  
+  .mdl-card__media > img {
+    max-width: 100%;
+  }
