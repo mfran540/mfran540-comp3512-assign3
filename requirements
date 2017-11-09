@@ -1,10 +1,12 @@
  **DO NOT mess with the Github in browser. Only make changes in Cloud 9. Then follow these commands:
  git add *
- git commit -m "CHANGES MADE"
- git push 
+ git commit -m "Comment (YOUR NAME)"
+ push
+ ^The push command is an alias we created to make it faster
  
  ToDo:
-  Abdul and Jordan added to the github.
+  Abdul and Jordan need to be added to the github.
+  Setup gateway classes
   
   Class Approach - make a ton of classes (steal from Lab Resources/useful in asg2/lab17)
   Navigation - 
@@ -13,4 +15,4 @@
  Github set up. 
  
   
-  test 2
+  
