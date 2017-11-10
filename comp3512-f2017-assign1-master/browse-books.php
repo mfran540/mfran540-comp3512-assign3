@@ -165,7 +165,7 @@ makeCookiesNone();
             
             <div class="mdl-grid">
 
-              <!-- mdl-cell + mdl-card -->
+              <!-- Subcategory Filter card | mdl-cell + mdl-card -->
               <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                 <div class="mdl-card__title mdl-color--orange">
                   <h2 class="mdl-card__title-text">Subcategory Filter</h2>
@@ -185,7 +185,7 @@ makeCookiesNone();
                 </div>
               </div>  <!-- / mdl-cell + mdl-card -->
               
-              <!-- mdl-cell + mdl-card -->
+              <!-- Imprint Filter card | mdl-cell + mdl-card -->
               <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                 <div class="mdl-card__title mdl-color--orange">
                   <h2 class="mdl-card__title-text">Imprint Filter</h2>
@@ -205,7 +205,7 @@ makeCookiesNone();
                 </div>
               </div>  <!-- / mdl-cell + mdl-card -->
               
-              <!-- mdl-cell + mdl-card -->
+              <!-- Books card | mdl-cell + mdl-card -->
               <div class="mdl-cell mdl-cell--12-col card-lesson mdl-card  mdl-shadow--2dp">
 
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">

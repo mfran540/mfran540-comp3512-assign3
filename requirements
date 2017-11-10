@@ -1,8 +1,7 @@
  **DO NOT mess with the Github in browser. Only make changes in Cloud 9. Then follow these commands:
  git add *
  git commit -m "Comment (YOUR NAME)"
- push
- ^The push command is an alias we created to make it faster
+ git push -u origin master
  
  ToDo:
   Abdul and Jordan need to be added to the github.
