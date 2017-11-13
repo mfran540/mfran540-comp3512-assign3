@@ -1,46 +1,13 @@
 <?php
 require_once('includes/db-config.inc.php');
 
-/* This function gets replaced with whats inside the db-config.inc.php file. So instead of this function we would use $connection variable.
-function createPDO() {
-    try {
-    $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
-     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (PDOException $e) {
-        die( $e->getMessage() );
-    }
-    return $pdo;
-    $pdo = null;
-}
-
-function callDB($sql) {
-    global $connection;
-    //$pdo = createPDO(); <- commented this out as the connection variable replaces it. 
-    $id = $_GET['employee'];
-    $result = $connection->prepare($sql);
-    $result->bindValue(':id', $id);
-    $result->execute();
-    return $result;
-    $pdo = null;
-}*/
-
 //connections to each gateway class (ie. table in Database)
 $employeeDB = new EmployeesGateway($connection );
 $messageDB = new MessagesGateway($connection );
 $employeeToDoDB = new EmployeesToDoGateway($connection );
 
 function printEmployees($employeeDB) {
-    /* <- commented this out as the connection variable and employee gateway class replaces all of it. 
-    $pdo = createPDO();
-    global $connection;
-    $sql = 'select * from Employees
-				Order By LastName';
-    $result = $connection->query($sql);
-	while ($row = $result->fetch())	{
-		echo '<li><a href="?employee='. $row['EmployeeID'] . '"><h6>' . $row['FirstName'] . ' ' . $row['LastName'] . '</h6></a></li>';							
-    }
-    */
+    /* Uses the employeeDB gateway class to find all employees and sort them by last name*/
     
     $result = $employeeDB->findAllSorted(true);
     foreach ($result as $row) {
@@ -49,17 +16,8 @@ function printEmployees($employeeDB) {
 }
 
 function displayDetails($employeeDB) {
-    /*
-    $sql = "select * from Employees where EmployeeID=:id";
-    $result = callDB($sql);
-    while ($row = $result->fetch()) {
-        echo "<h4>" . $row['FirstName'] . " " . $row["LastName"] . "</h4>";
-        echo $row['Address'] . '<br>';
-        echo $row['City'] . ', ' . $row['Region'] . '<br>';
-        echo $row['Country'] . ', ' . $row['Postal'] . '<br>';
-        echo $row['Email'];
-    }
-    */
+    /* Uses the employeeDB gateway class to find an employee ID in the table and returl the record, this also checks first if the employee is clicked
+    first before trying to run the SQL*/
     if (!isset($_GET['employee']) ) {
         echo '<h4>Please select an employee.</h4>';
     }
@@ -75,15 +33,7 @@ function displayDetails($employeeDB) {
 }
 
 function displayTodos($employeeToDoDB) {
-    /*
-    $sql = "select * from EmployeeToDo where EmployeeID=:id order by DateBy";
-    $result = callDB($sql);
-    while ($row = $result->fetch()) {
-        $date = date_create( substr($row['DateBy'], 0, -9) );
-        echo '<tr><td>' . date_format($date, "Y-M-d") . '</td><td>' . $row['Status'] . '</td><td>' . 
-            $row['Priority'] . '</td><td style="text-align:left;">' . $row['Description'] .  '</td></tr>';
-    }
-    */
+    /* Uses the EmployeeToDoDB gateway class to find the list of To Do's associated to the employee's ID and sorts it by Date*/
     
     $result = $employeeToDoDB->findListByIdSorted(true, $_GET['employee']);
     foreach($result as $row){
@@ -94,23 +44,10 @@ function displayTodos($employeeToDoDB) {
 }
 
 function displayMessages($messageDB) {
-    /*
-    $sql = "SELECT EmployeeMessages.MessageDate, EmployeeMessages.Category, Contacts.FirstName, Contacts.LastName, EmployeeMessages.Content
-            FROM EmployeeMessages
-            INNER JOIN Contacts on EmployeeMessages.ContactID=Contacts.ContactID
-            WHERE EmployeeMessages.EmployeeID=:id
-            ORDER BY MessageDate";
-    $result = callDB($sql);
-    while ($row = $result->fetch()) {
-        $date = date_create( substr($row['MessageDate'], 0, -9) );
-        echo '<tr><td>' . date_format($date, "Y-M-d") . '</td><td>' . $row['Category'] . '</td><td>' . 
-        $row['FirstName'] . " " . $row['LastName'] . '</td><td style="text-align:left;">' . substr($row['Content'], 0, 39) .  '</td></tr>';
-    }*/
+    /* Uses the MessageDB gateway class to find the list of messages associated to the employee's ID and sorts it by Date*/
     
     $result = $messageDB->findListByIdSorted(true,$_GET['employee']);
     foreach($result as $row) {
-        //$date = date_create( substr($row['MessageDate'], 0, -9) ); **Code inside table was: date_format($date, "Y-M-d")
-        
         echo '<tr><td>' . date("Y-M-d", strtotime($row['MessageDate'])) . '</td><td>' . $row['Category'] . '</td><td>' . 
         $row['FirstName'] . " " . $row['LastName'] . '</td><td style="text-align:left;">' . substr($row['Content'], 0, 39) .  '</td></tr>';
     }
@@ -126,14 +63,9 @@ function displayTabs () {
 check in the above "displayDetails" function as it would throw an error if the employee id was empty. */
 function printError($employeeDB) {
     if (!isset($_GET['employee']) ) {
-        //echo '<h4>Please select an employee.</h4>';
     }
     else {
-        /*$testQuery = callDB("SELECT EmployeeID FROM Employees WHERE EmployeeID=:id");
-        if ( $testQuery->rowCount() == 0 ) {
-            echo '<h4>Did not understand request. Try clicking on an employee from the list.</h4>';
-        }
-        */
+        /* checks if the employee id is empty or not in the table*/
         $testQuery = $employeeDB->findById($_GET['employee']);
         if($testQuery == null){
             echo '<h4>Did not understand request. Try clicking on an employee from the list.</h4>';
@@ -279,13 +211,10 @@ function printError($employeeDB) {
                                    
                                     <?php /*  display Messages  */ 
                                         displayMessages($messageDB);
-                                    
                                     ?>
                             
                                   </tbody>
                                 </table>
-                           
-         
                           </div>
                         </div>                         
                     </div>    

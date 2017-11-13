@@ -34,12 +34,17 @@ function callDB2($sql, $id, $id2) {
 
 function printSubcats() {
     $pdo = createPDO();
-    $sql = 'SELECT * FROM Subcategories ORDER BY SubcategoryName';
+    $sql = 'SELECT * FROM Subcategories ORDER BY SubcategoryName LIMIT 0,20';
     $result = $pdo->query($sql);
-    
+    /*
     echo "<option value='None'>All Subcategories</option>";
     while ($row = $result->fetch()) {
         echo "<option>" . $row['SubcategoryName'] . "</option>";
+    }*/
+    
+    echo "<input type='radio' name='subcat' value='None'>None" . "<br>";
+    while ($row = $result->fetch()) {
+        echo "<input type='radio' name='subcat' value='" . $row['SubcategoryName'] . "'>" . $row['SubcategoryName'] . "<br>";
     }
 }
 
@@ -48,9 +53,9 @@ function printImprints() {
     $sql = 'SELECT * FROM Imprints ORDER BY Imprint';
     $result = $pdo->query($sql);
     
-    echo "<option value='None'>All Imprints</option>";
+    echo "<input type='radio' name='imprint' value='None'>None" . "<br>";
     while ($row = $result->fetch()) {
-        echo "<option>" . $row['Imprint'] . "</option>";
+        echo "<input type='radio' name='imprint' value='" . $row['Imprint'] . "'>" . $row['Imprint'] . "<br>";
     }
 }
 
@@ -117,6 +122,7 @@ function listBooks () {
     $pdo = null;
 }
 
+//MOVE THIS TO CONFIG FILE OR SOMEWHERE ON INDEX PAGE
 function makeCookiesNone() {
     if (!isset($_COOKIE['SUBCAT'])){
         setcookie('SUBCAT', 'None', 0);
@@ -165,48 +171,8 @@ makeCookiesNone();
             
             <div class="mdl-grid">
 
-              <!-- Subcategory Filter card | mdl-cell + mdl-card -->
-              <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
-                <div class="mdl-card__title mdl-color--orange">
-                  <h2 class="mdl-card__title-text">Subcategory Filter</h2>
-                </div>
-                <div class="mdl-card__supporting-text">
-                    <ul class="demo-list-item mdl-list">
-                        
-                        <?php printCookie('SUBCAT'); ?>
-                        <form action="make-cookies.php" method='post'>
-                            <select name="subcat">
-                                <?php printSubcats(); ?>
-                            </select>
-                            <input type='submit' value='Filter'>
-                        </form>          
-
-                    </ul>
-                </div>
-              </div>  <!-- / mdl-cell + mdl-card -->
-              
-              <!-- Imprint Filter card | mdl-cell + mdl-card -->
-              <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
-                <div class="mdl-card__title mdl-color--orange">
-                  <h2 class="mdl-card__title-text">Imprint Filter</h2>
-                </div>
-                <div class="mdl-card__supporting-text">
-                    <ul class="demo-list-item mdl-list">
-                        
-                        <?php printCookie('IMPRINT'); ?>
-                        <form action="make-cookies.php" method='post'>
-                            <select name="imprint">
-                                <?php printImprints(); ?>
-                            </select>
-                            <input type='submit' value='Filter'>
-                        </form>            
-
-                    </ul>
-                </div>
-              </div>  <!-- / mdl-cell + mdl-card -->
-              
               <!-- Books card | mdl-cell + mdl-card -->
-              <div class="mdl-cell mdl-cell--12-col card-lesson mdl-card  mdl-shadow--2dp">
+              <div class="mdl-cell mdl-cell--9-col card-lesson mdl-card  mdl-shadow--2dp">
 
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
                       <h2 class="mdl-card__title-text">Books</h2>
@@ -222,9 +188,53 @@ makeCookiesNone();
                         </table>
                         
                     </div>    
-  
-                 
               </div>  <!-- / mdl-cell + mdl-card -->   
+              
+              <!-- Filters cards | mdl-cell + mdl-card -->
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
+                
+                <!-- Imprint Card -->  
+                <div class="mdl-card__title mdl-color--orange">
+                  <h2 class="mdl-card__title-text">Imprint Filter</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <ul class="demo-list-item mdl-list">
+                        
+                        <?php printCookie('IMPRINT'); ?>
+                        <form action="make-cookies.php" method='post'>
+                            
+                            <?php printImprints(); ?>
+                            <input type='submit' value='Filter'>
+                            
+                        </form>            
+
+                    </ul>
+                </div>
+                
+                <!-- Subcategory Card -->
+                <div class="mdl-card__title mdl-color--orange">
+                  <h2 class="mdl-card__title-text">Subcategory Filter</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <ul class="demo-list-item mdl-list">
+                        
+                        <?php printCookie('SUBCAT'); ?>
+                        <form action="make-cookies.php" method='post'>
+                            <!--
+                            <select name="subcat">
+                                <?php printSubcats(); ?>
+                            </select>
+                            <input type='submit' value='Filter'>
+                            -->
+                            <?php printSubcats(); ?>
+                            <input type='submit' value='Filter'>
+                        </form>    
+                    </ul>
+                </div>
+              </div>  <!-- / mdl-cell + mdl-card -->
+              
+              
+              
             </div>  <!-- / mdl-grid -->  
 
         </section>

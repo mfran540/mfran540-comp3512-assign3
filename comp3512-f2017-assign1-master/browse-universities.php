@@ -1,8 +1,11 @@
+
 <?php
-require_once('config.php');
+//require_once('config.php');
+require_once('includes/db-config.inc.php');
+$universitiesDB = new UniversitiesGateway($connection);
+$statesDB = new StatesGateway($connection);
 
-
-function createPDO() {
+/*function createPDO() {
     try {
     $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -32,23 +35,26 @@ function callDB2($sql) {
     $result->execute();
     return $result;
     $pdo = null;
-}
+}*/
 
-function printUniversities() {
-    $pdo = createPDO();
-    $sql1 = 'SELECT Name, UniversityID FROM Universities ORDER BY Name LIMIT 0, 20';
-    $result1 = $pdo->query($sql1);
-    
+function printUniversities($universitiesDB) {
+    //$pdo = createPDO();
+    //$sql1 = 'SELECT Name, UniversityID FROM Universities ORDER BY Name LIMIT 0, 20';
+    //$result1 = $pdo->query($sql1);
     
     if (!isset($_GET['state']) || strpos($_GET['state'], 'none') !== false ){
-        while ($row = $result1->fetch())	{
+        //while ($row = $result1->fetch())	{
+        $result1 = $universitiesDB->findAllSorted(true);
+    	foreach ($result1 as $row) {
     		echo '<li><a href="?university='. $row['UniversityID'] . '"><h6>' . $row['Name'] . '</h6></a></li>';							
         }
     }
     else {
-        $sql2 = 'SELECT UniversityID, Name, State, StateID FROM Universities INNER JOIN States ON Universities.State=States.StateName WHERE StateName =:name ORDER BY Name LIMIT 0, 20';
-        $result2 = callDB($sql2);
-        while ($row = $result2->fetch())	{
+        //$sql2 = 'SELECT UniversityID, Name, State, StateID FROM Universities INNER JOIN States ON Universities.State=States.StateName WHERE StateName =:name ORDER BY Name LIMIT 0, 20';
+        //$result2 = callDB($sql2);
+        //while ($row = $result2->fetch())	{
+        $result2 = $universitiesDB->findListByName($_GET['state']);
+        foreach ($result2 as $row) {
     		echo '<li><a href="?university='. $row['UniversityID'] . '"><h6>' . $row['Name'] . '</h6></a></li>';							
         }
     }
@@ -56,7 +62,7 @@ function printUniversities() {
     $pdo = null;
 }
 
-function printError() {
+function printError($universitiesDB) {
     #$isCorrect = true;
     if (!isset($_GET['university']) ) {
         echo '<h4>Please select a university.</h4>';
@@ -71,29 +77,58 @@ function printError() {
     }
 }
 
-function stateOptions() {
-    $pdo = createPDO();
+function stateOptions($statesDB) {
+    /*$pdo = createPDO();
     $sql = 'SELECT StateName, StateID from States';
-    $result = $pdo->query($sql);
+    $result = $pdo->query($sql);*/
+    $result = $statesDB->findAllSorted(true);
     echo "<option value='none'>None</option>";
     
-    while ($row = $result->fetch()) {
+    
+    //while ($row = $result->fetch()) {
+    foreach ($result as $row) {
         echo '<option value="' . $row['StateName'] . '">' . $row['StateName'] . '</option>';
     }
 }
 
-function printUniversityInfo () {
-    $sql = "select * from Universities where UniversityID=:id";
-    $result = callDB2($sql);
-    while ($row = $result->fetch()) {
+function printUniversityInfo ($universitiesDB) {
+    //$sql = "select * from Universities where UniversityID=:id";
+    //$result = callDB2($sql);
+    if (isset($_GET['university'])) {
+//    $row = $universitiesDB->findListById($_GET['university']);
+    //while ($row = $result->fetch()) {
+    $row = $universitiesDB->findUniversityById($_GET['university']);
+    
         echo "<h4>" . $row['Name'] . "</h4>";
         echo $row['Address'] . '<br>';
         echo $row['City'] . ', ';
         echo $row['State'] . '   ';
         echo $row['Zip'] . '<br>';
         echo "<a href='http://" . $row['Website'] . "'>" . $row['Website'] . '</a><br>';
-        echo $row['Country'] . '<br>';
-        echo "Coordinates: " . $row['Latitude'] . ", " . $row['Longitude'];
+        //echo $row['Country'] . '<br>';
+        echo "
+        <h3>Google Maps </h3>
+                        <div id=map></div>
+                        <script>
+                            function initMap() {
+                                var uluru = {lat: " . $row['Latitude'] . ", "  . "lng: " . $row['Longitude'] ."};
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 4,
+                                center: uluru
+                                });
+                                var marker = new google.maps.Marker({
+                                position: uluru,
+                                map: map
+                                });
+                            }
+                        </script>
+                        <script async defer
+                        src=https://maps.googleapis.com/maps/api/js?key=AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE&callback=initMap>
+                        </script>";
+                                    
+        //echo "Coordinates: " . $row['Latitude'] . ", " . $row['Longitude'];
+        
+    //}
     }
 }
 
@@ -105,7 +140,7 @@ function printUniversityInfo () {
     <title>Universities</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
@@ -116,6 +151,12 @@ function printUniversityInfo () {
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
     
 </head>
 
@@ -144,13 +185,13 @@ function printUniversityInfo () {
                     
                     <form action="browse-universities.php" method='get'>
                         <select name="state">
-                            <?php stateOptions(); ?>
+                            <?php stateOptions($statesDB); ?>
                         </select>
                         <input type='submit' value='Filter'>
                     </form>
                     
                          <?php  
-                              printUniversities();
+                              printUniversities($universitiesDB);
                          ?>            
 
                     </ul>
@@ -164,12 +205,32 @@ function printUniversityInfo () {
                       <h2 class="mdl-card__title-text">University Details</h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <?php printError(); ?>
+                        <?//php printError($universitiesDB); ?>
                         
                     </div>
                     
                     <div style="padding-left:2em;">
-                        <?php printUniversityInfo() ?>
+                        <?php printUniversityInfo($universitiesDB) ?>
+                        
+                       <!-- <h3>My Google Maps Demo</h3>
+                        <div id="map"></div>
+                        <script>
+                            function initMap() {
+                                var uluru = {lat: -25.363, lng: 131.044};
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 4,
+                                center: uluru
+                                });
+                                var marker = new google.maps.Marker({
+                                position: uluru,
+                                map: map
+                                });
+                            }
+                        </script>
+                        <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE&callback=initMap">
+                        </script>--> 
+                    
                     </div>
                  
               </div>  <!-- / mdl-cell + mdl-card -->   

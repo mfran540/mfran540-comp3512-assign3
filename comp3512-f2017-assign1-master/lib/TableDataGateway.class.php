@@ -113,7 +113,14 @@ abstract class TableDataGateway
       
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetchAll();
-   }   
+   }
+     public function findListByName($id)
+   {
+      $sql = $this->getSelectStatement() . ' WHERE ' . $this->getPrimaryKeyName() . '=:id';
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
+      return $statement->fetchAll();
+   }  
 
 }
 
