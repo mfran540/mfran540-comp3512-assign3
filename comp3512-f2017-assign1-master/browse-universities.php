@@ -1,65 +1,25 @@
 
 <?php
-//require_once('config.php');
 require_once('includes/db-config.inc.php');
 $universitiesDB = new UniversitiesGateway($connection);
 $statesDB = new StatesGateway($connection);
 
-/*function createPDO() {
-    try {
-    $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
-     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (PDOException $e) {
-        die( $e->getMessage() );
-    }
-    return $pdo;
-    $pdo = null;
-}
-
-function callDB($sql) {
-    $pdo = createPDO();
-    $name = $_GET['state'];
-    $result = $pdo->prepare($sql);
-    $result->bindValue(':name', $name);
-    $result->execute();
-    return $result;
-    $pdo = null;
-}
-
-function callDB2($sql) {
-    $pdo = createPDO();
-    $id = $_GET['university'];
-    $result = $pdo->prepare($sql);
-    $result->bindValue(':id', $id);
-    $result->execute();
-    return $result;
-    $pdo = null;
-}*/
-
 function printUniversities($universitiesDB) {
-    //$pdo = createPDO();
-    //$sql1 = 'SELECT Name, UniversityID FROM Universities ORDER BY Name LIMIT 0, 20';
-    //$result1 = $pdo->query($sql1);
     
     if (!isset($_GET['state']) || strpos($_GET['state'], 'none') !== false ){
-        //while ($row = $result1->fetch())	{
         $result1 = $universitiesDB->findAllSorted(true);
     	foreach ($result1 as $row) {
     		echo '<li><a href="?university='. $row['UniversityID'] . '"><h6>' . $row['Name'] . '</h6></a></li>';							
         }
     }
     else {
-        //$sql2 = 'SELECT UniversityID, Name, State, StateID FROM Universities INNER JOIN States ON Universities.State=States.StateName WHERE StateName =:name ORDER BY Name LIMIT 0, 20';
-        //$result2 = callDB($sql2);
-        //while ($row = $result2->fetch())	{
         $result2 = $universitiesDB->findListByName($_GET['state']);
         foreach ($result2 as $row) {
     		echo '<li><a href="?university='. $row['UniversityID'] . '"><h6>' . $row['Name'] . '</h6></a></li>';							
         }
     }
 	
-    $pdo = null;
+ //   $pdo = null;
 }
 
 function printError($universitiesDB) {
@@ -78,25 +38,15 @@ function printError($universitiesDB) {
 }
 
 function stateOptions($statesDB) {
-    /*$pdo = createPDO();
-    $sql = 'SELECT StateName, StateID from States';
-    $result = $pdo->query($sql);*/
     $result = $statesDB->findAllSorted(true);
     echo "<option value='none'>None</option>";
-    
-    
-    //while ($row = $result->fetch()) {
     foreach ($result as $row) {
         echo '<option value="' . $row['StateName'] . '">' . $row['StateName'] . '</option>';
     }
 }
 
 function printUniversityInfo ($universitiesDB) {
-    //$sql = "select * from Universities where UniversityID=:id";
-    //$result = callDB2($sql);
     if (isset($_GET['university'])) {
-//    $row = $universitiesDB->findListById($_GET['university']);
-    //while ($row = $result->fetch()) {
     $row = $universitiesDB->findUniversityById($_GET['university']);
     
         echo "<h4>" . $row['Name'] . "</h4>";
@@ -105,7 +55,6 @@ function printUniversityInfo ($universitiesDB) {
         echo $row['State'] . '   ';
         echo $row['Zip'] . '<br>';
         echo "<a href='http://" . $row['Website'] . "'>" . $row['Website'] . '</a><br>';
-        //echo $row['Country'] . '<br>';
         echo "
         <h3>Google Maps </h3>
                         <div id=map></div>
@@ -113,7 +62,7 @@ function printUniversityInfo ($universitiesDB) {
                             function initMap() {
                                 var uluru = {lat: " . $row['Latitude'] . ", "  . "lng: " . $row['Longitude'] ."};
                                 var map = new google.maps.Map(document.getElementById('map'), {
-                                zoom: 4,
+                                zoom: 15,
                                 center: uluru
                                 });
                                 var marker = new google.maps.Marker({
@@ -125,10 +74,6 @@ function printUniversityInfo ($universitiesDB) {
                         <script async defer
                         src=https://maps.googleapis.com/maps/api/js?key=AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE&callback=initMap>
                         </script>";
-                                    
-        //echo "Coordinates: " . $row['Latitude'] . ", " . $row['Longitude'];
-        
-    //}
     }
 }
 
@@ -211,26 +156,6 @@ function printUniversityInfo ($universitiesDB) {
                     
                     <div style="padding-left:2em;">
                         <?php printUniversityInfo($universitiesDB) ?>
-                        
-                       <!-- <h3>My Google Maps Demo</h3>
-                        <div id="map"></div>
-                        <script>
-                            function initMap() {
-                                var uluru = {lat: -25.363, lng: 131.044};
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                zoom: 4,
-                                center: uluru
-                                });
-                                var marker = new google.maps.Marker({
-                                position: uluru,
-                                map: map
-                                });
-                            }
-                        </script>
-                        <script async defer
-                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE&callback=initMap">
-                        </script>--> 
-                    
                     </div>
                  
               </div>  <!-- / mdl-cell + mdl-card -->   

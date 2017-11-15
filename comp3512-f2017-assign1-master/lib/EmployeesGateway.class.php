@@ -18,6 +18,17 @@ class EmployeesGateway extends TableDataGateway {
     protected function getPrimaryKeyName() {
         return "EmployeeID";
     }
+    
+    protected function getLastName() {
+        return "LastName";
+    }
+    
+    protected function getCityField(){
+        return "City";
+    }
+    protected function getCities(){
+        return "SELECT DISTINCT ".$this->getCityField()." FROM Employees ORDER BY City";
+    }
 }
 
 ?>

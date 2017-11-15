@@ -7,17 +7,50 @@ $messageDB = new MessagesGateway($connection );
 $employeeToDoDB = new EmployeesToDoGateway($connection );
 
 function printEmployees($employeeDB) {
-    /* Uses the employeeDB gateway class to find all employees and sort them by last name*/
+    /* Uses the employeeDB gateway class to find all employees and sort them by last name, checks if any filters are set*/
     
+    if(isset($_GET['lastname']) || isset($_GET['city']))
+    {
+        if(isset($_GET['lastname']) && isset($_GET['city'])){
+            $result = $employeeDB->findByLastNameandCity($_GET['lastname'], $_GET['city']);
+            foreach ($result as $row) {
+            echo '<li><a href="?employee='. $row['EmployeeID'] . '"><h6>' . $row['FirstName'] . ' ' . $row['LastName'] . '</h6></a></li>';
+            }
+        }
+        elseif (isset($_GET['lastname'])){
+            $result = $employeeDB->findByLastName($_GET['lastname']);
+            foreach ($result as $row) {
+            echo '<li><a href="?employee='. $row['EmployeeID'] . '"><h6>' . $row['FirstName'] . ' ' . $row['LastName'] . '</h6></a></li>';
+            }
+        }
+        else {
+            $result = $employeeDB->findByCity($_GET['city']);
+            foreach ($result as $row) {
+            echo '<li><a href="?employee='. $row['EmployeeID'] . '"><h6>' . $row['FirstName'] . ' ' . $row['LastName'] . '</h6></a></li>';
+            }
+        }
+    }
+    else {
     $result = $employeeDB->findAllSorted(true);
     foreach ($result as $row) {
         echo '<li><a href="?employee='. $row['EmployeeID'] . '"><h6>' . $row['FirstName'] . ' ' . $row['LastName'] . '</h6></a></li>';
     }
+    }
+}
+
+function printEmployeesCity($employeeDB){
+    echo "<select name='city'><option disabled selected value>-- Select a City --</option>";
+    $result = $employeeDB->findAllCities(true);
+    foreach ($result as $row){
+        echo "<option value=".$row['City'].">".$row['City']."</option>";
+    }
+    echo "</select>";
 }
 
 function displayDetails($employeeDB) {
     /* Uses the employeeDB gateway class to find an employee ID in the table and returl the record, this also checks first if the employee is clicked
     first before trying to run the SQL*/
+    
     if (!isset($_GET['employee']) ) {
         echo '<h4>Please select an employee.</h4>';
     }
@@ -89,11 +122,9 @@ function printError($employeeDB) {
 
     <link rel="stylesheet" href="css/styles.css">
     
-    
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    
 </head>
 
 <body>
@@ -111,6 +142,53 @@ function printError($employeeDB) {
 
               <!-- mdl-cell + mdl-card -->
               <div class="mdl-cell mdl-cell--3-col mdl-cell--3-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-color--orange">
+                  <h2 class="mdl-card__title-text">Filter Employees</h2>
+                </div>
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect mdl-typography--text-center" for="unhidefilter">Unhide/Hide Filter
+                    <input type="checkbox" id="unhidefilter" class="mdl-switch__input" onclick="unhide('.employee_filter')" />
+                    </label>
+                <div class="employee_filter mdl-card__supporting-text">
+                    <form id="lastnamefilter" action="browse-employees.php" method="get">
+                        Filter by employee last name:
+                        <input  type="text" name="lastname"/></br></br>
+                        Filter by employees city:
+                            <?php 
+                            /*Prints all the unique cities in the employee table within the select element*/
+                            printEmployeesCity($employeeDB); 
+                            ?>
+                        </br>
+                        </br><input type="submit" value="Filter"/></br>
+                    </form>
+                <script>
+                // Javascript code to remove the lastname filter in the query string if the textbox is empty
+                    var lastnametextbox = document.querySelector('#lastnamefilter');
+
+                    lastnametextbox.addEventListener('submit', function () {
+                        var inputs = lastnametextbox.getElementsByTagName('input');
+                
+                        for (var i = 0; i < inputs.length; i++) {
+                            var input = inputs[i];
+                
+                            if (input.name && !input.value) {
+                            input.name = '';
+                            }
+                        }
+                    });
+                    
+                // Javascript code to hide/unhide the filter card once the toggle is clicked    
+                function unhide (classname) {
+                    var checkbox = document.querySelector('#unhidefilter');
+                    var display = "none";
+                    
+                    if(checkbox.checked){
+                        display = "block";
+                    }
+                    
+                    document.querySelector(classname).style.display = display;
+                }                    
+                </script>
+                </div>
                 <div class="mdl-card__title mdl-color--orange">
                   <h2 class="mdl-card__title-text">Employees</h2>
                 </div>

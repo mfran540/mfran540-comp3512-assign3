@@ -5,7 +5,10 @@ header h1.mdl-layout-title {
 header h1 span {
     color: #ff6e40;
 }
-
+.employee_filter {
+  display:none;
+}
+                    
 .profile {
    background-color: #263238;
     display: flex;

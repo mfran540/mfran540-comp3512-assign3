@@ -81,6 +81,16 @@ abstract class TableDataGateway
    } 
    
    /*
+      Returns all unique city records in the employee table
+   */
+   public function findAllCities($ascending)
+   {
+      $sql = $this->getCities();
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
+      return $statement->fetchAll();
+   }
+   
+   /*
       Returns a record for the specificed ID
    */
   public function findById($id)
@@ -89,6 +99,39 @@ abstract class TableDataGateway
       
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetch();
+   } 
+   
+   /*
+      Returns a list of records with the specified lastname
+   */
+  public function findByLastName($lastname)
+   {
+      $sql = $this->getSelectStatement() . ' WHERE ' . $this->getLastName() . "=:lastname";
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':lastname' => $lastname));
+      return $statement->fetchAll();
+   } 
+   
+   /*
+      Returns a list of records with the specificed city and lastname
+   */   
+  public function findByLastNameandCity($lastname,$city)
+   {
+      $sql = $this->getSelectStatement() . ' WHERE ' . $this->getLastName() . "=:lastname AND ". $this->getCityField() ."=:city";
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':lastname' => $lastname,':city' => $city));
+      return $statement->fetchAll();
+   }   
+
+   /*
+      Returns a list of records with the specificed city and lastname
+   */   
+  public function findByCity($city)
+   {
+      $sql = $this->getSelectStatement() . ' WHERE ' . $this->getCityField() . "=:city";
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':city' => $city));
+      return $statement->fetchAll();
    } 
    
    /*
@@ -114,7 +157,8 @@ abstract class TableDataGateway
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetchAll();
    }
-     public function findListByName($id)
+
+public function findListByName($id)
    {
       $sql = $this->getSelectStatement() . ' WHERE ' . $this->getPrimaryKeyName() . '=:id';
       

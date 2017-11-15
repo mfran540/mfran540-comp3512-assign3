@@ -1,3 +1,6 @@
+phpmyadmin link: https://mfran540-comp3512-assign2-mfran540.c9users.io/phpmyadmin
+username: mfran540 pass is blank
+
 **DO NOT mess with the Github in browser. Only make changes in Cloud 9. Then follow these commands:
  git add *
  git commit -m "Comment (YOUR NAME)"
@@ -6,11 +9,11 @@
 ToDo & Responsibilities: 
  Gateway classes to be setup & complete by end of the weekend (Mon, 13th) - Everyone
  Everything else we will try to complete by Friday 17th
- Browse Universities & Simple Search page - Jordan
- Clean-up code from assignment 1 feedback & Analytics page - Marc
- Browse Universities & Single Book page - Abdul
- Navigation, About Us, User Profile, Simple Search - Yassin
- Login/Logout pages - Who ever completes first ca start on these pages; everyone else can help aswell with this.
+  - Browse Universities & Simple Search page - Jordan
+  - Clean-up code from assignment 1 feedback & Analytics page - Marc
+  - Browse Universities & Single Book page - Abdul
+  - Navigation, About Us, User Profile, Simple Search - Yassin
+  - Login/Logout pages - Who ever completes first ca start on these pages; everyone else can help aswell with this.
  
 Done:
  Github set up. 
