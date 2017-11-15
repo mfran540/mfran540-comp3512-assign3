@@ -80,6 +80,22 @@ abstract class TableDataGateway
       return $statement->fetchAll();
    } 
    
+   
+   /*
+      Returns all the records in the table sorted by the specified sort order
+   */
+   public function findAllSortedLimited($ascending, $limit)
+   {
+      $sql = $this->getSelectStatement() . ' ORDER BY ' .
+      $this->getOrderFields();
+      if (! $ascending) {
+         $sql .= " DESC";
+      }
+      $sql .= " LIMIT 0," . $limit;
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
+      return $statement->fetchAll();
+   } 
+   
    /*
       Returns all unique city records in the employee table
    */

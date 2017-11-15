@@ -289,6 +289,9 @@ function printError($employeeDB) {
                                    
                                     <?php /*  display Messages  */ 
                                         displayMessages($messageDB);
+                                        
+                                        //closing PDO connection
+                                        $connection =  null;
                                     ?>
                             
                                   </tbody>

@@ -155,3 +155,15 @@ main header h4 {
   .mdl-card__media > img {
     max-width: 100%;
   }
+  
+  #topfifteen {
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  #topfifteen td {
+    border: none;
+    text-align: center;
+  }

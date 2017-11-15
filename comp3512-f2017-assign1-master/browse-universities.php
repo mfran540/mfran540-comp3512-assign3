@@ -5,7 +5,6 @@ $universitiesDB = new UniversitiesGateway($connection);
 $statesDB = new StatesGateway($connection);
 
 function printUniversities($universitiesDB) {
-    
     if (!isset($_GET['state']) || strpos($_GET['state'], 'none') !== false ){
         $result1 = $universitiesDB->findAllSorted(true);
     	foreach ($result1 as $row) {
@@ -18,8 +17,6 @@ function printUniversities($universitiesDB) {
     		echo '<li><a href="?university='. $row['UniversityID'] . '"><h6>' . $row['Name'] . '</h6></a></li>';							
         }
     }
-	
- //   $pdo = null;
 }
 
 function printError($universitiesDB) {
@@ -29,8 +26,8 @@ function printError($universitiesDB) {
         #$isCorrect = false;
     }
     else {
-        $testQuery = callDB2("SELECT UniversityID FROM Universities WHERE UniversityID=:id");
-        if ( $testQuery->rowCount() == 0 ) {
+        $testQuery = $universitiesDB->findUniversityById($_GET['university']);
+        if ($testQuery == null) {
             echo '<h4>Did not understand request. Try clicking on a university from the list.</h4>';
             #$isCorrect = false;
         }
@@ -150,12 +147,15 @@ function printUniversityInfo ($universitiesDB) {
                       <h2 class="mdl-card__title-text">University Details</h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <?//php printError($universitiesDB); ?>
+                        <?php printError($universitiesDB); ?>
                         
                     </div>
                     
                     <div style="padding-left:2em;">
-                        <?php printUniversityInfo($universitiesDB) ?>
+                        <?php 
+                            printUniversityInfo($universitiesDB); 
+                            $connection = null;
+                        ?>
                     </div>
                  
               </div>  <!-- / mdl-cell + mdl-card -->   

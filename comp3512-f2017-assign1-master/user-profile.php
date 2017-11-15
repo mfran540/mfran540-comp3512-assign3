@@ -2,9 +2,6 @@
 require_once('includes/db-config.inc.php');
 
 //connections to each gateway class (ie. table in Database)
-$employeeDB = new EmployeesGateway($connection );
-$messageDB = new MessagesGateway($connection );
-$employeeToDoDB = new EmployeesToDoGateway($connection );
 $usersDB = new UsersGateway($connection ); 
 
 function printUserInfo($id,$usersDB)
@@ -63,6 +60,8 @@ function printUserInfo($id,$usersDB)
                         
                         printUserInfo(1,$usersDB);
                         
+                        //closing PDO connection
+                        $connection = null;
                         ?>
                     </div>
                 </div>

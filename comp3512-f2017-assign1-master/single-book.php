@@ -37,7 +37,15 @@ function displayText($name) {
             WHERE Books.ISBN10=:id';
     $result = callDB($sql, $_GET['isbn10']);
     while ($row = $result->fetch() ) {
+        if ($name == 'SubcategoryName'){
+            echo "<a href='browse-books.php?subcat=".$row[$name]."'>".$row[$name]."</a>";
+        }
+        else if ($name == 'Imprint'){
+            echo "<a href='browse-books.php?Imprint=".$row[$name]."'>".$row[$name]."</a>";
+        }
+        else {
         echo $row[$name];
+        }
     }
 }
 
@@ -64,7 +72,7 @@ function printUniversities() {
         ORDER BY Name';
     $result = callDB($sql, $_GET['isbn10']);
     while ($row = $result->fetch() ) {
-        echo $row['Name'] . '<br>';
+        echo "<a href='browse-universities.php?university=".$row['UniversityID']."'>".$row['Name'] . '</a><br>';
     }
 }
 
