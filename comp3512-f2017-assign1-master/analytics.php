@@ -4,26 +4,7 @@ require_once('includes/db-config.inc.php');
 $visitsDB = new BookVisitsGateway($connection);
 $todosDB = new EmployeesToDoGateway($connection);
 $messagesDB = new MessagesGateway($connection);
-
-/*
-First table SQL:
-SELECT BookVisits.CountryCode, Countries.CountryName, COUNT(BookVisits.CountryCode) AS Visits
-FROM BookVisits
-INNER JOIN Countries ON BookVisits.CountryCode = Countries.CountryCode
-GROUP BY BookVisits.CountryCode
-ORDER BY Visits DESC
-LIMIT 0,15
-
-
-ToDos SQL:
-SELECT * FROM EmployeeToDo
-WHERE DateBy BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'
-
-Messages SQL:
-SELECT * FROM EmployeeMessages
-WHERE MessageDate BETWEEN '2017-05-31 00:00:00' AND '2017-07-01 00:00:00'
-
-*/
+$adoptionsDB = new AdoptionsAnalyticsGateway($connection);
 
 function printTopFifteen($visitsDB) {
     $result = $visitsDB->findAllSortedLimitedGrouped(false, 15);
@@ -68,8 +49,16 @@ function printTotalMessages($messagesDB) {
     echo $count;
 }
 
-?>
+function printTopBooks($adoptionsDB) {
+    $result = $adoptionsDB->findAllSortedLimitedGrouped(false, 10);
+    foreach($result as $row) {
+        echo '<tr><td><img src="./book-images/tinysquare/' . $row['ISBN10'] . '.jpg"> ' . 
+        '<a href="single-book.php?isbn10=' . $row['ISBN10'] . '">' . 
+        $row['Title'] . '</a></td><td>' . $row['Quantity'] . '</td></tr>';
+    }
+}
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,15 +96,17 @@ function printTotalMessages($messagesDB) {
                 <!-- Dashboard mdl-cell + mdl-card -->
                   <div class="mdl-cell mdl-cell--12-col card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--orange">
-                      <h2 class="mdl-card__title-text">Admin Dashboard</h2>
+                      <h2 class="mdl-card__title-text">
+                          <i class="material-icons" role="presentation">security</i>&nbsp;<strong>Admin Dashboard</strong>
+                        </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <strong>Information about website analytics for June 2017.</strong>
+                        <strong>Website analytics for June 2017.</strong>
                     </div>
                 </div>  <!-- / Dashboard mdl-cell + mdl-card -->
                 
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
                         <h2 class="mdl-card__title-text">
                             <i class="material-icons" role="presentation">account_circle</i>&nbsp;Total Books Page Visitors
@@ -127,10 +118,10 @@ function printTotalMessages($messagesDB) {
                 </div>
                 
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
                         <h2 class="mdl-card__title-text">
-                            <i class="material-icons" role="presentation">my_location</i>&nbsp;Total Unique Country Visitors
+                            <i class="material-icons" role="presentation">language</i>&nbsp;Total Unique Country Visitors
                         </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
@@ -139,7 +130,7 @@ function printTotalMessages($messagesDB) {
                 </div>
                 
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
                         <h2 class="mdl-card__title-text">
                             <i class="material-icons" role="presentation">check_box</i>&nbsp;Total Employee Todos
@@ -151,7 +142,7 @@ function printTotalMessages($messagesDB) {
                 </div>
                 
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
                         <h2 class="mdl-card__title-text">
                             <i class="material-icons" role="presentation">message</i>&nbsp;Total Employee Messages
@@ -163,11 +154,12 @@ function printTotalMessages($messagesDB) {
                 </div>
                 
                 
-                
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
-                    <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
-                        <h2 class="mdl-card__title-text">Top 15 Countries by Visits</h2>
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--9-col-phone card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--indigo mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">equalizer</i>&nbsp;Top 15 Countries by Visits
+                        </h2>
                     </div>
                     <table id="topfifteen">
                         <tr>
@@ -180,7 +172,21 @@ function printTotalMessages($messagesDB) {
                     
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
-                
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--9-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--indigo mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">book</i>&nbsp;Top 10 Adopted Books
+                        </h2>
+                    </div>
+                    <table id="topten" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <tr>
+                            <th>Book</th>
+                            <th>Quantity</th>
+                        </tr>
+                        <?php printTopBooks($adoptionsDB); ?>
+                    </table>
+                </div>  <!-- / mdl-cell + mdl-card -->
                     
                 
                 

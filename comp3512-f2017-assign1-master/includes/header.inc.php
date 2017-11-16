@@ -28,4 +28,25 @@
  <div class="mdl-tooltip" for="tt4">Logout</div>   
       </div>
     </div>
+    <script>    
+    // var currentSearchValue = document.getElementById('fixed-header-drawer-exp').defaultValue;
+  //window.alert(currentSearchValue);
+     document.getElementById('fixed-header-drawer-exp').addEventListener('click',function(){
+      
+        var searchButton = document.getElementById('fixed-header-drawer-exp');
+     var currentSearchValue = document.getElementById('fixed-header-drawer-exp').value;
+     if (currentSearchValue != searchButton.defaultValue)
+     {
+      //window.location.href=
+      window.location.href="browse-employees.php?lastname="+ currentSearchValue ;
+     
+      
+     }
+     
+      
+      
+     });
+     
+    
+    </script>
   </header>

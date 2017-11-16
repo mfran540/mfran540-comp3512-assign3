@@ -22,10 +22,6 @@ function callDB($sql, $id) {
     $pdo = null;
 }
 
-function makeBookCover() {
-    echo "book-images/medium/" . $_GET['isbn10'] . '.jpg';
-}
-
 function displayText($name) {
     $sql = 'SELECT ISBN10, ISBN13, Title, CopyrightYear, Subcategories.SubcategoryName, Imprints.Imprint, Statuses.Status, BindingTypes.BindingType,
 		            TrimSize, PageCountsEditorialEst, Books.Description
@@ -133,15 +129,39 @@ function isGoodQS() {
     <?php include 'includes/header.inc.php'; ?>
     <?php include 'includes/left-nav.inc.php'; ?>
     
+    <style type="text/css">
+        #largeImage{
+            text-align: center;
+            position: absolute;
+            visibility: hidden;
+            z-index: 100;
+            top: 0; left: 0; 
+            padding-top: 3em;
+            width:100%;
+            height:100%; 
+            background-color: rgba(100,100,100, .5)
+        }
+    </style>
+    <script>
+        function enlargeImage (id) {
+            document.querySelector(id).style.visibility = "visible";
+        }
+        
+        function hideImage (image) {
+            image.style.visibility = "hidden";
+            window.location.reload();
+        }        
+    </script>
     <main class="mdl-layout__content mdl-color--grey-50">
         <?php printError(); ?>
         <section class="page-content" <?php displayPage() ?>>
-            
+        <div id="largeImage">
+            <img src="book-images/large/<?php echo $_GET['isbn10'] ?>.jpg" onclick="hideImage(this)"/>
+        </div>    
             <div class="mdl-grid">
-                
                 <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--3-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
                     <figure id="singleImage" class="mdl-card__media">
-                        <img id="image" src=<?php makeBookCover(); ?> />
+                        <img src="book-images/medium/<?php echo $_GET['isbn10'] ?>.jpg" onclick="enlargeImage('#largeImage')"/>
                     </figure>
                     <div id="cardtitle" class="mdl-card__title">
                         <h1 id="singlebooktitle" class="mdl-card__title-text"><?php displayText('Title'); ?> (<?php displayText('CopyrightYear') ?>)</h1>

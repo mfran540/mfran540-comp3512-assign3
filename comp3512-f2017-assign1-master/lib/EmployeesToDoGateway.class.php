@@ -7,7 +7,7 @@ class EmployeesToDoGateway extends TableDataGateway {
     
     protected function getSelectStatement()
     {
-        return "select * from EmployeeToDo "; //We will need to add the table fields instead of *
+        return "select ToDoID, EmployeeID, Status, Priority, DateBy, Description from EmployeeToDo "; 
     }
     
     protected function getOrderFields() {
