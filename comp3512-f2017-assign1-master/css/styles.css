@@ -169,3 +169,6 @@ main header h4 {
     padding: 5px;
   }
   
+  .analytics h4 {
+    margin: 0;
+  }

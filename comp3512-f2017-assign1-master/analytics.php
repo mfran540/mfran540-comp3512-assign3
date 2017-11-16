@@ -100,7 +100,7 @@ function printTotalMessages($messagesDB) {
     <?php include 'includes/left-nav.inc.php'; ?>
     
     <main class="mdl-layout__content mdl-color--grey-50">
-        <section class="page-content">
+        <section class="page-content analytics">
             
             <div class="mdl-grid">
                 
@@ -110,9 +110,59 @@ function printTotalMessages($messagesDB) {
                       <h2 class="mdl-card__title-text">Admin Dashboard</h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <strong>Information about website analytics</strong>
+                        <strong>Information about website analytics for June 2017.</strong>
                     </div>
                 </div>  <!-- / Dashboard mdl-cell + mdl-card -->
+                
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">account_circle</i>&nbsp;Total Books Page Visitors
+                        </h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <h4><?php totalVisits($visitsDB); ?></h4>
+                    </div>
+                </div>
+                
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">my_location</i>&nbsp;Total Unique Country Visitors
+                        </h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <h4><?php totalUniqueCountries($visitsDB); ?></h4>
+                    </div>
+                </div>
+                
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">check_box</i>&nbsp;Total Employee Todos
+                        </h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <h4><?php printTotalTodos($todosDB); ?></h4>
+                    </div>
+                </div>
+                
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">message</i>&nbsp;Total Employee Messages
+                        </h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <h4><?php printTotalMessages($messagesDB); ?></h4>
+                    </div>
+                </div>
+                
+                
                 
                 <!-- mdl-cell + mdl-card -->
                 <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
@@ -129,40 +179,10 @@ function printTotalMessages($messagesDB) {
                     
                     
                 </div>  <!-- / mdl-cell + mdl-card -->
-                
-                
-                <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--6-col card-lesson mdl-card  mdl-shadow--2dp">
-                    <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
-                        <h2 class="mdl-card__title-text">June Statistics</h2>
-                    </div>
-                    <div>
-                        <table id="statistics">
-                            <tr>
-                                <td>IMAGE</td>
-                                <td>Total Visits</td>
-                                <td><?php totalVisits($visitsDB); ?></td>
-                            </tr>
-                            <tr>
-                                <td>IMAGE</td>
-                                <td>Unique Country Visitors</td>
-                                <td><?php totalUniqueCountries($visitsDB); ?></td>
-                            </tr>
-                            <tr>
-                                <td>IMAGE</td>
-                                <td>Total Employee Todos</td>
-                                <td><?php printTotalTodos($todosDB); ?></td>
-                            </tr>
-                            <tr>
-                                <td>IMAGE</td>
-                                <td>Total Employee Messages</td>
-                                <td><?php printTotalMessages($messagesDB); ?></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>  <!-- / mdl-cell + mdl-card -->
                     
-                  
+                
+                    
+                
                 
             </div>  <!-- / mdl-grid -->
 

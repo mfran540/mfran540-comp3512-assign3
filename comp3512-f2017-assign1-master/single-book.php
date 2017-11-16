@@ -141,7 +141,7 @@ function isGoodQS() {
                 
                 <div class="mdl-card mdl-cell mdl-cell--6-col mdl-cell--3-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
                     <figure id="singleImage" class="mdl-card__media">
-                        <img src=<?php makeBookCover(); ?> />
+                        <img id="image" src=<?php makeBookCover(); ?> />
                     </figure>
                     <div id="cardtitle" class="mdl-card__title">
                         <h1 id="singlebooktitle" class="mdl-card__title-text"><?php displayText('Title'); ?> (<?php displayText('CopyrightYear') ?>)</h1>

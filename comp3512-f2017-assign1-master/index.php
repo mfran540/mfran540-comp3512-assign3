@@ -30,7 +30,6 @@
     <main class="mdl-layout__content mdl-color--grey-50">
         <section class="page-content">
             
-            <h6>Note: My chrome wouldn't display MDL. Had to use Edge.</h6>
             <!-- Square card -->
             <a href='browse-universities.php'>
             <div class="mdl-card card-lesson mdl-shadow--2dp demo-card-square unicard">
