@@ -1,6 +1,6 @@
 <?php
 
-class UsersGateway extends TableDataGateway {
+class UsersLoginGateway extends TableDataGateway {
     public function __construct($connect) {
         parent::__construct($connect);
     }
@@ -11,9 +11,9 @@ class UsersGateway extends TableDataGateway {
                 DateJoined, DateLastModified FROM UsersLogin";
     }
     
-    protected function getOrderFields() {
+    /*protected function getOrderFields() {
         return 'LastName';
-    }
+    }*/
     
     protected function getPrimaryKeyName() {
         return "UserID";

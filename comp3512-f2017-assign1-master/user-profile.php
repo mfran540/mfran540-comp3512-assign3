@@ -45,10 +45,11 @@ function printUserInfo($id,$usersDB)
     <?php include 'includes/left-nav.inc.php'; ?>
     
     <main class="mdl-layout__content mdl-color--grey-50">
-        <section class="page-content">
+        <section class="page-content userprofile">
             
             <div class="mdl-grid">
-                <div class="mdl-card mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-shadow--2dp">
+                <div class="mdl-card mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-shadow--2dp" id="profilecard" >
+                    
                     <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
                     </figure>
                     <div class="mdl-card__title">

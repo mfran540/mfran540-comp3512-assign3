@@ -1,4 +1,11 @@
+<?php
 
+    function redirectToLogin() {
+        if(!isset($_SESSION['UserName'])) {
+            header('Location: login.php' );
+        }  
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 

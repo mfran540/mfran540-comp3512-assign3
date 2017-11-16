@@ -186,3 +186,6 @@ main header h4 {
     text-align: center;
   }
   
+  .userprofile #profilecard {
+    margin:auto;
+  }

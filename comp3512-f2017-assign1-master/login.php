@@ -4,7 +4,7 @@ require_once('includes/db-config.inc.php');
 
 function validLogin() {
     $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
-    $sql = "SELECT * FROM Credentials WHERE Username=:user and Password=:pass";
+    $sql = "SELECT * FROM UsersLogin WHERE Username=:user and Password=:pass";
     $statement = $pdo->prepare($sql);
     $statement->bindvalue(':user',$_POST['username']);
     $statement->bindValue(':pass',$_POST['pword']);
@@ -50,7 +50,7 @@ function getLoginForm(){
 
 <body>
     
-<div class="mdl-layout mdl-js-layout 
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
             mdl-layout--fixed-header">
     
     <?php include 'includes/header.inc.php'; ?>
@@ -79,6 +79,7 @@ function getLoginForm(){
                         </form>
                         -->
                     </div>
+                    
                     
                     
                     

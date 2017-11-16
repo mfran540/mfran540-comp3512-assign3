@@ -33,11 +33,9 @@
             
             <div class="mdl-grid">
                 
-                 <h4> This site is hypothetical and was created as an assignment for COMP 3512 at Mount Royal University taught by Randy Connolly</h4>
-                 
-                
-                
-                
+                 <h4> This site is hypothetical and was created as an assignment for COMP 3512 at Mount Royal University taught by Randy Connolly<br>
+                 <a href="https://github.com/yabde760/yabde760-com3512-assign2">Our GitHub page for this assignment</a>
+                 </h4>
                 
                 
                 <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
@@ -47,56 +45,69 @@
                         <h1 class="mdl-card__title-text">Marc Francois</h1>
                     </div>
                     <div class="mdl-card__supporting-text">
+                         <p><strong>Responsibilities</strong>:</p>
                         <ul>
                             <li>Analytics page</li>
                             <li>Clean-up code from assignment 1</li>
+                            <li>Gneral website styling</li>
                             <li>Gateway classes</li>
-                            
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    </figure>
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Jordan Vogel</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                          <p><strong>Responsibilities</strong>:</p>
+                         <ul>
+                            <li>Browse Universities page</li>
+                            <li>Simple Search page</li>
+                            <li>Google Maps functionality</li>
+                            <li>Gateway classes</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    </figure>
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Yassin Abd Elwahab</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <p><strong>Responsibilities</strong>:</p>
+                        <ul>
+                            <li>Navigation page</li>
+                            <li>About Us page</li>
+                            <li>Simple Search functionality</li>
+                            <li>Gateway classes</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    </figure>
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Abdul Ismail</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <p><strong>Responsibilities</strong>:</p>
+                         <ul>
+                            <li>Navigation page</li>
+                            <li>About Us page</li>
+                            <li>Simple Search functionality</li>
+                            <li>Gateway classes</li>
+                        
                             
                         </ul>
-                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
-                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
-                    </div>
-                </div>
-                
-                
-                
-                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
-                    </figure>
-                    <div class="mdl-card__title">
-                        <h1 class="mdl-card__title-text">Jor</h1>
-                    </div>
-                    <div class="mdl-card__supporting-text">
-                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
-                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
-                    </div>
-                </div>
-                
-                
-                
-                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
-                    </figure>
-                    <div class="mdl-card__title">
-                        <h1 class="mdl-card__title-text">Marc Francois</h1>
-                    </div>
-                    <div class="mdl-card__supporting-text">
-                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
-                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
-                    </div>
-                </div>
-                
-                
-                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
-                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
-                    </figure>
-                    <div class="mdl-card__title">
-                        <h1 class="mdl-card__title-text">Marc Francois</h1>
-                    </div>
-                    <div class="mdl-card__supporting-text">
-                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
-                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
+                        
+                       
                     </div>
                 </div>
                 
