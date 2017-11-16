@@ -133,7 +133,8 @@ abstract class TableDataGateway
    */
   public function findByLastName($lastname)
    {
-      $sql = $this->getSelectStatement() . ' WHERE ' . $this->getLastName() . "=:lastname";
+      /*$sql = $this->getSelectStatement() . ' WHERE ' . $this->getLastName() . "=:lastname";*/ 
+      $sql = $this->getSelectStatement() . ' WHERE ' . $this->getLastName() . " LIKE :lastname";
       
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':lastname' => $lastname));
       return $statement->fetchAll();

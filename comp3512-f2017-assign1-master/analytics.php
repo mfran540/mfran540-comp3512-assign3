@@ -64,7 +64,7 @@ function printTopBooks($adoptionsDB) {
 <html lang="en">
 
 <head>
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>

@@ -18,7 +18,7 @@ function printEmployees($employeeDB) {
             }
         }
         elseif (isset($_GET['lastname'])){
-            $result = $employeeDB->findByLastName($_GET['lastname']);
+            $result = $employeeDB->findByLastName($_GET['lastname'] . '%');
             foreach ($result as $row) {
             echo '<li><a href="?employee='. $row['EmployeeID'] . '"><h6>' . $row['FirstName'] . ' ' . $row['LastName'] . '</h6></a></li>';
             }

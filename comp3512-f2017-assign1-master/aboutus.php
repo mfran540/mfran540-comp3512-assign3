@@ -32,7 +32,50 @@
         <section class="page-content">
             
             <div class="mdl-grid">
-                <div class="mdl-card mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-shadow--2dp">
+                
+                 <h4> This site is hypothetical and was created as an assignment for COMP 3512 at Mount Royal University taught by Randy Connolly</h4>
+                 
+                
+                
+                
+                
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    </figure>
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Marc Francois</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <ul>
+                            <li>Analytics page</li>
+                            <li>Clean-up code from assignment 1</li>
+                            <li>Gateway classes</li>
+                            
+                            
+                        </ul>
+                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
+                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    </figure>
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Jor</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
+                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
                     <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
                     </figure>
                     <div class="mdl-card__title">
@@ -43,11 +86,27 @@
                         <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
                     </div>
                 </div>
+                
+                
+                <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
+                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    </figure>
+                    <div class="mdl-card__title">
+                        <h1 class="mdl-card__title-text">Marc Francois</h1>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <p><strong>COMP3512 (Web 2)</strong> - Fall 2017</p>
+                        <p>Todays Date: <?php echo date("l, F jS Y"); ?></p>
+                    </div>
+                </div>
+                
+                
+                
     
                 <!-- mdl-cell + mdl-card -->
-                  <div class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
+                  <div class="mdl-cell mdl-cell--12-col mdl-cell--5-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--orange">
-                      <h2 class="mdl-card__title-text">Resources (not mine)</h2>
+                      <h2 class="mdl-card__title-text">Resources</h2>
                     </div>
                     <div class="mdl-card__supporting-text">
                         <ul class="demo-list-item mdl-list">
@@ -60,7 +119,12 @@
                             <h4>- Book images</h4>
                         </ul>
                     </div>
-                  </div>  <!-- / mdl-cell + mdl-card -->
+                  </div> 
+                  
+                  
+                  
+                  
+                 <!-- / mdl-cell + mdl-card -->
             </div>
         </section>
     </main>    
