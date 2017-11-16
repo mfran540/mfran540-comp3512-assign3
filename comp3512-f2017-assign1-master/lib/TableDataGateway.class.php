@@ -80,14 +80,25 @@ abstract class TableDataGateway
       return $statement->fetchAll();
    } 
    
+   /*
+      Returns all the records in the table grouped by the specified 
+      $group table column
+   */
+   public function findAllGrouped()
+   {
+      $sql = $this->getSelectStatement() . ' GROUP BY ' . $this->getGroupBy();
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
+      return $statement->fetchAll();
+   }
    
    /*
-      Returns all the records in the table sorted by the specified sort order
+      Returns all the records in the table sorted by the specified sort order,
+      the first $limit records, and grouped by subclass getGroupBy()
    */
-   public function findAllSortedLimited($ascending, $limit)
+   public function findAllSortedLimitedGrouped($ascending, $limit)
    {
-      $sql = $this->getSelectStatement() . ' ORDER BY ' .
-      $this->getOrderFields();
+      $sql = $this->getSelectStatement() . ' GROUP BY ' . $this->getGroupBy();
+      $sql .= ' ORDER BY ' . $this->getOrderFields();
       if (! $ascending) {
          $sql .= " DESC";
       }
@@ -181,6 +192,13 @@ public function findListByName($id)
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetchAll();
    }  
+
+   public function customWhere($where) {
+      $sql = $this->getSelectStatement() . ' WHERE ' . $where;
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
+      return $statement->fetchAll();
+   }
 
 }
 

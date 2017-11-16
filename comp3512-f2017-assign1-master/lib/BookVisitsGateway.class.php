@@ -10,8 +10,7 @@ class BookVisitsGateway extends TableDataGateway {
         return 'SELECT VisitID, BookVisits.BookID, BookVisits.CountryCode, Countries.CountryName,
                     COUNT(BookVisits.CountryCode) AS Visits
                 FROM BookVisits 
-                INNER JOIN Countries ON BookVisits.CountryCode = Countries.CountryCode
-                GROUP BY BookVisits.CountryCode'; 
+                INNER JOIN Countries ON BookVisits.CountryCode = Countries.CountryCode'; 
     }
     
     protected function getOrderFields() {
@@ -20,6 +19,10 @@ class BookVisitsGateway extends TableDataGateway {
     
     protected function getPrimaryKeyName() {
         return "VisitID";
+    }
+    
+    protected function getGroupBy() {
+        return "BookVisits.CountryCode";
     }
     
     

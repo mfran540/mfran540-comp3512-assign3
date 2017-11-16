@@ -156,14 +156,16 @@ main header h4 {
     max-width: 100%;
   }
   
-  #topfifteen {
+  #topfifteen, #statistics {
     border-collapse: collapse;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
   }
   
-  #topfifteen td {
+  #topfifteen tr td {
     border: none;
     text-align: center;
+    padding: 5px;
   }
+  

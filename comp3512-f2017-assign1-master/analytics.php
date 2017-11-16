@@ -2,6 +2,8 @@
 
 require_once('includes/db-config.inc.php');
 $visitsDB = new BookVisitsGateway($connection);
+$todosDB = new EmployeesToDoGateway($connection);
+$messagesDB = new MessagesGateway($connection);
 
 /*
 First table SQL:
@@ -12,10 +14,19 @@ GROUP BY BookVisits.CountryCode
 ORDER BY Visits DESC
 LIMIT 0,15
 
+
+ToDos SQL:
+SELECT * FROM EmployeeToDo
+WHERE DateBy BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'
+
+Messages SQL:
+SELECT * FROM EmployeeMessages
+WHERE MessageDate BETWEEN '2017-05-31 00:00:00' AND '2017-07-01 00:00:00'
+
 */
 
 function printTopFifteen($visitsDB) {
-    $result = $visitsDB->findAllSortedLimited(false, 15);
+    $result = $visitsDB->findAllSortedLimitedGrouped(false, 15);
     $num = 1;
     foreach ($result as $row) {
         echo '<tr><td>' . $num . '. ' . $row['CountryName']. '</td><td>' . $row['Visits'] . '</td></tr>';
@@ -23,6 +34,39 @@ function printTopFifteen($visitsDB) {
     }
 }
 
+function totalVisits($visitsDB) {
+    $result = $visitsDB->findAll();
+    foreach ($result as $row) {
+        echo $row['Visits'];
+    }
+}
+
+function totalUniqueCountries($visitDB) {
+    $result = $visitDB->findAllGrouped();
+    $count = 0;
+    foreach ($result as $row) {
+        $count++;
+    }
+    echo $count;
+}
+
+function printTotalTodos($todosDB) {
+    $result = $todosDB->customWhere("DateBy BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'");
+    $count = 0;
+    foreach ($result as $row) {
+        $count++;
+    }
+    echo $count;
+}
+
+function printTotalMessages($messagesDB) {
+    $result = $messagesDB->customWhere("MessageDate BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'");
+    $count = 0;
+    foreach ($result as $row) {
+        $count++;
+    }
+    echo $count;
+}
 
 ?>
 
@@ -88,10 +132,33 @@ function printTopFifteen($visitsDB) {
                 
                 
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--6-col card-lesson mdl-card  mdl-shadow--2dp">
                     <div class="mdl-card__title mdl-color--deep-purple mdl-color-text--white">
                         <h2 class="mdl-card__title-text">June Statistics</h2>
-                        
+                    </div>
+                    <div>
+                        <table id="statistics">
+                            <tr>
+                                <td>IMAGE</td>
+                                <td>Total Visits</td>
+                                <td><?php totalVisits($visitsDB); ?></td>
+                            </tr>
+                            <tr>
+                                <td>IMAGE</td>
+                                <td>Unique Country Visitors</td>
+                                <td><?php totalUniqueCountries($visitsDB); ?></td>
+                            </tr>
+                            <tr>
+                                <td>IMAGE</td>
+                                <td>Total Employee Todos</td>
+                                <td><?php printTotalTodos($todosDB); ?></td>
+                            </tr>
+                            <tr>
+                                <td>IMAGE</td>
+                                <td>Total Employee Messages</td>
+                                <td><?php printTotalMessages($messagesDB); ?></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
