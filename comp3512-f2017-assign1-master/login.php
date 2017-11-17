@@ -2,6 +2,15 @@
 
 require_once('includes/db-config.inc.php');
 
+
+
+function killSession(){
+    
+    session_start();
+    $_SESSION = array();
+    session_destroy();
+}
+
 function validLogin() {
     $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
     $sql = "SELECT * FROM UsersLogin WHERE Username=:user and Password=:pass";

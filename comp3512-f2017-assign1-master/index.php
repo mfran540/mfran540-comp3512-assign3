@@ -2,10 +2,11 @@
 
     function redirectToLogin() {
         if(!isset($_SESSION['UserName'])) {
-            header('Location: login.php' );
+            header('Location: login.php?page=' . urlencode($_SERVER['REQUEST_URI']));
         }  
     }
 ?>
+<?php redirectToLogin() ?>
 <!DOCTYPE html>
 <html lang="en">
 

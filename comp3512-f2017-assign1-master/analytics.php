@@ -1,5 +1,7 @@
 <?php
 
+include 'includes/login-checker.inc.php';
+
 require_once('includes/db-config.inc.php');
 $visitsDB = new BookVisitsGateway($connection);
 $todosDB = new EmployeesToDoGateway($connection);
@@ -64,6 +66,7 @@ function printTopBooks($adoptionsDB) {
 <html lang="en">
 
 <head>
+    <?php //redirectToLogin('analytics.php'); ?>
     <title>Admin Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

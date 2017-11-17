@@ -1,8 +1,13 @@
+<?php
 
+include 'includes/login-checker.inc.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <?php //redirectToLogin('aboutus.php'); ?>
     <title>Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
