@@ -22,6 +22,9 @@ function callDB($sql, $id) {
     $pdo = null;
 }
 
+/*
+    Displays the info from database depending on which type is passed in
+*/
 function displayText($name) {
     $sql = 'SELECT ISBN10, ISBN13, Title, CopyrightYear, Subcategories.SubcategoryName, Imprints.Imprint, Statuses.Status, BindingTypes.BindingType,
 		            TrimSize, PageCountsEditorialEst, Books.Description
@@ -45,6 +48,9 @@ function displayText($name) {
     }
 }
 
+/*
+    Prints the authors of the book in a list
+*/
 function printAuthors() {
     $sql = 'SELECT FirstName, LastName, Books.ISBN10, Books.BookID
             FROM Authors
@@ -58,6 +64,9 @@ function printAuthors() {
     }
 }
 
+/*
+    Prints a list of universites that adopted the book with a link back to university page
+*/
 function printUniversities() {
     $sql = 'SELECT Universities.Name, Universities.UniversityID, Books.ISBN10
         FROM Universities
@@ -72,13 +81,18 @@ function printUniversities() {
     }
 }
 
-
+/*
+    Hides contents of page if query string is incorrect
+*/
 function displayPage () {
     if (!isset($_GET['isbn10']) || !isGoodQS()) {
         echo ' style="display:none;"';
     }
 }
 
+/*
+    Prints an error if the query string is not there or incorrect
+*/
 function printError() {
     if (!isset($_GET['isbn10']) ) {
         echo '<h4 class="singleerror">Please go to <a href="browse-books.php"><strong>books page</strong></a> to select a book.</h4>';
@@ -88,6 +102,9 @@ function printError() {
     }
 }
 
+/*
+    Checks to see if the query string is correct
+*/
 function isGoodQS() {
     $result = true;
     $testQuery = callDB("SELECT ISBN10 FROM Books WHERE ISBN10=:id", $_GET['isbn10']);

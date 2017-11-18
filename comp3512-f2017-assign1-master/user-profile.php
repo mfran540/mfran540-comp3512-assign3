@@ -5,6 +5,9 @@ require_once('includes/db-config.inc.php');
 //connections to each gateway class (ie. table in Database)
 $usersDB = new UsersGateway($connection ); 
 
+/*
+    Prints the information of the user who is logged in
+*/
 function printUserInfo($id,$usersDB)
 {
     $row = $usersDB->findById($id);
@@ -68,8 +71,6 @@ function printUserInfo($id,$usersDB)
                         ?>
                     </div>
                 </div>
-    
-                
             </div>
         </section>
     </main>    

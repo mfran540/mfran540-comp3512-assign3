@@ -94,7 +94,6 @@ include 'includes/login-checker.inc.php';
                     </div>
                 </div>
                 
-                
                 <div class="mdl-card mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-shadow--2dp">
                     <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
                     </figure>
@@ -108,16 +107,9 @@ include 'includes/login-checker.inc.php';
                             <li>About Us page</li>
                             <li>Simple Search functionality</li>
                             <li>Gateway classes</li>
-                        
-                            
                         </ul>
-                        
-                       
                     </div>
                 </div>
-                
-                
-                
     
                 <!-- mdl-cell + mdl-card -->
                   <div class="mdl-cell mdl-cell--12-col mdl-cell--5-col-tablet mdl-cell--4-col-phone card-lesson mdl-card  mdl-shadow--2dp">
@@ -135,12 +127,7 @@ include 'includes/login-checker.inc.php';
                             <h4>- Book images</h4>
                         </ul>
                     </div>
-                  </div> 
-                  
-                  
-                  
-                  
-                 <!-- / mdl-cell + mdl-card -->
+                  </div> <!-- / mdl-cell + mdl-card -->
             </div>
         </section>
     </main>    

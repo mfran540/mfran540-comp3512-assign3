@@ -18,12 +18,17 @@ class UniversitiesGateway extends TableDataGateway {
     protected function getPrimaryKeyName() {
         return "UniversityID";
     }
+    
     public function getStateName() {
         return "State";
     }
+    
+    //SQL for accessing a single university
     public function getSingleUniversity () {
         return "SELECT * FROM Universities";   
     }
+    
+    //Returns a list of universities by specified ID
     public function findListByName($id)
     {
         $sql = $this->getSelectStatement() . ' WHERE ' . $this->getStateName() . '=:id';
@@ -31,6 +36,8 @@ class UniversitiesGateway extends TableDataGateway {
         $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
         return $statement->fetchAll();
     }  
+    
+    //Finds a specific university based on passed in ID
     public function findUniversityById($id)
     {
         $sql = $this->getSingleUniversity() . ' WHERE ' . $this->getPrimaryKeyName() . '=:id';

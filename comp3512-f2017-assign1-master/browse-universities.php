@@ -5,6 +5,9 @@ require_once('includes/db-config.inc.php');
 $universitiesDB = new UniversitiesGateway($connection);
 $statesDB = new StatesGateway($connection);
 
+/*
+    Prints the list of universities as links
+*/
 function printUniversities($universitiesDB) {
     if (!isset($_GET['state']) || strpos($_GET['state'], 'none') !== false ){
         $result1 = $universitiesDB->findAllSorted(true);
@@ -20,6 +23,9 @@ function printUniversities($universitiesDB) {
     }
 }
 
+/*
+    Prints an error if query string is not there or if incorrect
+*/
 function printError($universitiesDB) {
     #$isCorrect = true;
     if (!isset($_GET['university']) ) {
@@ -35,6 +41,9 @@ function printError($universitiesDB) {
     }
 }
 
+/*
+    Creates dropdown menu of states to filter by
+*/
 function stateOptions($statesDB) {
     $result = $statesDB->findAllSorted(true);
     echo "<option value='none'>None</option>";
@@ -43,6 +52,10 @@ function stateOptions($statesDB) {
     }
 }
 
+/*
+    Prints university information once one is selected properly
+    Now includes Google Map
+*/
 function printUniversityInfo ($universitiesDB) {
     if (isset($_GET['university'])) {
     $row = $universitiesDB->findUniversityById($_GET['university']);

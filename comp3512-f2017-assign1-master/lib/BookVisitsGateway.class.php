@@ -21,6 +21,7 @@ class BookVisitsGateway extends TableDataGateway {
         return "VisitID";
     }
     
+    //For grouping by specific ID
     protected function getGroupBy() {
         return "BookVisits.CountryCode";
     }

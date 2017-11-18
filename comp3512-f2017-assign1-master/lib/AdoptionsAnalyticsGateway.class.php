@@ -20,6 +20,7 @@ class AdoptionsAnalyticsGateway extends TableDataGateway {
         return "AdoptionDetailID";
     }
     
+    //For grouping by specific ID
     protected function getGroupBy() {
         return "AdoptionBooks.BookID";
     }

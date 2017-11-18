@@ -2,12 +2,16 @@
 
 include 'includes/login-checker.inc.php';
 
+//Create and instantiate database gateways
 require_once('includes/db-config.inc.php');
 $visitsDB = new BookVisitsGateway($connection);
 $todosDB = new EmployeesToDoGateway($connection);
 $messagesDB = new MessagesGateway($connection);
 $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
 
+/*
+    Creates the top 15 countries list
+*/
 function printTopFifteen($visitsDB) {
     $result = $visitsDB->findAllSortedLimitedGrouped(false, 15);
     $num = 1;
@@ -17,6 +21,9 @@ function printTopFifteen($visitsDB) {
     }
 }
 
+/*
+    Prints out the total visits to website
+*/
 function totalVisits($visitsDB) {
     $result = $visitsDB->findAll();
     foreach ($result as $row) {
@@ -24,6 +31,9 @@ function totalVisits($visitsDB) {
     }
 }
 
+/*
+    Prints out the total number of unique country visits
+*/
 function totalUniqueCountries($visitDB) {
     $result = $visitDB->findAllGrouped();
     $count = 0;
@@ -33,6 +43,9 @@ function totalUniqueCountries($visitDB) {
     echo $count;
 }
 
+/*
+    Prints out the total number of todos in month of June 2017
+*/
 function printTotalTodos($todosDB) {
     $result = $todosDB->customWhere("DateBy BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'");
     $count = 0;
@@ -42,6 +55,9 @@ function printTotalTodos($todosDB) {
     echo $count;
 }
 
+/*
+    Prints out the total number of employee messages in June 2017
+*/
 function printTotalMessages($messagesDB) {
     $result = $messagesDB->customWhere("MessageDate BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'");
     $count = 0;
@@ -51,6 +67,10 @@ function printTotalMessages($messagesDB) {
     echo $count;
 }
 
+/*
+    Prints out the top 10 adopted books by universities
+    Ordered by the amount of universities each book was adopted by
+*/
 function printTopBooks($adoptionsDB) {
     $result = $adoptionsDB->findAllSortedLimitedGrouped(false, 10);
     foreach($result as $row) {
@@ -171,9 +191,8 @@ function printTopBooks($adoptionsDB) {
                         </tr>
                         <?php printTopFifteen($visitsDB); ?>
                     </table>
-                    
-                    
                 </div>  <!-- / mdl-cell + mdl-card -->
+                    
                     
                 <!-- mdl-cell + mdl-card -->
                 <div class="mdl-cell mdl-cell--9-col card-lesson mdl-card  mdl-shadow--2dp">
@@ -191,10 +210,7 @@ function printTopBooks($adoptionsDB) {
                     </table>
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
-                
-                
             </div>  <!-- / mdl-grid -->
-
         </section>
     </main>    
 </div>    <!-- / mdl-layout --> 

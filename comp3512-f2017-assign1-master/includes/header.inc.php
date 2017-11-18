@@ -1,7 +1,5 @@
-
-
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
+<header class="mdl-layout__header">
+     <div class="mdl-layout__header-row">
      <h1 class="mdl-layout-title"><span>CRM</span> Admin</h1>
  
       <div class="mdl-layout-spacer"></div>
@@ -27,22 +25,20 @@
  <div class="mdl-tooltip" for="tt3">Notifications</div> 
         <label id="tt4" class="material-icons mdl-badge mdl-badge--overlap">power_settings_new
 </label> 
- <div id="tt4" class="mdl-tooltip" for="tt4">Logout</div>   
-      </div>
-    </div>
+<div id="tt4" class="mdl-tooltip" for="tt4">Logout</div>   
+</div>
+   </div>
     <script>    
     // var currentSearchValue = document.getElementById('fixed-header-drawer-exp').defaultValue;
-  //window.alert(currentSearchValue);
+    //window.alert(currentSearchValue);
      document.getElementById('fixed-header-drawer-exp').addEventListener('click',function(){
       
         var searchButton = document.getElementById('fixed-header-drawer-exp');
      var currentSearchValue = document.getElementById('fixed-header-drawer-exp').value;
      if (currentSearchValue != searchButton.defaultValue)
      {
-      //window.location.href=
       window.location.href="browse-employees.php?lastname="+ currentSearchValue ;
      
-      
      }
      
       

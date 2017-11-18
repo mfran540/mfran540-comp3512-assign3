@@ -123,7 +123,8 @@ function listBooks () {
     $pdo = null;
 }
 
-//MOVE THIS TO CONFIG FILE OR SOMEWHERE ON INDEX PAGE
+//MOVE THIS TO CONFIG FILE OR SOMEWHERE ON INDEX PAGE 
+//OR totally remove it once the query strings are working
 function makeCookiesNone() {
     if (!isset($_COOKIE['SUBCAT'])){
         setcookie('SUBCAT', 'None', 0);
@@ -132,6 +133,8 @@ function makeCookiesNone() {
         setcookie('IMPRINT', 'None', 0);
     }
 }
+
+//Remove when query strings are working
 makeCookiesNone();
 
 

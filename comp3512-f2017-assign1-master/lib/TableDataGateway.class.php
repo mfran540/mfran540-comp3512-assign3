@@ -186,7 +186,10 @@ abstract class TableDataGateway
       return $statement->fetchAll();
    }
 
-public function findListByName($id)
+   /*
+      Returns a list based on specific name
+   */
+   public function findListByName($id)
    {
       $sql = $this->getSelectStatement() . ' WHERE ' . $this->getPrimaryKeyName() . '=:id';
       

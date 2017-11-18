@@ -1,4 +1,9 @@
 <?php
+/*
+    NOTE: Failed login attempts should show red boxes and will dissapear
+    when text is changed, but some chrome extensions sometimes block that
+    functionality from working.
+*/
 
 session_start();
 require_once('includes/db-config.inc.php');
