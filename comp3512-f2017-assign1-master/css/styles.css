@@ -115,6 +115,20 @@ main header h4 {
     background: url('../images/aboutus.jpg');
   }
   
+  .analyticscard {
+    background: url('../images/analytics.png');
+    
+    
+  }
+  
+  .logincard {
+    background: url('../images/Login.jpg');
+  }
+  
+  .userprofilecard {
+    background: url('../images/userprofile.png');
+  }
+  
   #booktable {
     border-collapse: collapse;
   }

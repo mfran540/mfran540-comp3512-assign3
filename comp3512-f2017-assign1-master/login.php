@@ -8,6 +8,7 @@ $usersDB = new UsersLoginGateway($connection );
 validLogin($usersDB);
 
 function validLogin($usersDB) {
+    $javascript;
     $redirect = NULL;
     if(isset($_GET['location'])) {
     if($_GET['location'] != '') {
@@ -44,7 +45,7 @@ function validLogin($usersDB) {
 
 
 function getLoginForm(){
-   echo "<form action='' method='post' role='form'>
+   echo "<form action='' method='post' role='form' id='mainForm'>
             <div class ='form-group'>
                 <input type='text' name='username' placeholder='Username' class='form-control'/>
             </div>

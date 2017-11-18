@@ -69,6 +69,33 @@ include 'includes/login-checker.inc.php';
                 </div>
             </div>
             </a> 
+            
+            <!-- Square card -->
+            <a href='user-profile.php'>
+            <div class="mdl-card card-lesson mdl-shadow--2dp demo-card-square userprofilecard">
+               <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text dash">User Profile</h2>
+                </div>
+            </div>
+            </a> 
+            
+            <!-- Square card -->
+            <a href='analytics.php'>
+            <div class="mdl-card card-lesson mdl-shadow--2dp demo-card-square analyticscard">
+               <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text dash">Analytics</h2>
+                </div>
+            </div>
+            </a> 
+            
+            <!-- Square card -->
+            <a href='login.php'>
+            <div class="mdl-card card-lesson mdl-shadow--2dp demo-card-square logincard">
+               <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text dash">Login</h2>
+                </div>
+            </div>
+            </a> 
 
             
             
