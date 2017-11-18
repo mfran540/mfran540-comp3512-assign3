@@ -1,5 +1,6 @@
 
 <?php
+include 'includes/login-checker.inc.php';
 require_once('includes/db-config.inc.php');
 $universitiesDB = new UniversitiesGateway($connection);
 $statesDB = new StatesGateway($connection);
@@ -79,6 +80,7 @@ function printUniversityInfo ($universitiesDB) {
 <html lang="en">
 
 <head>
+    <?php //redirectToLogin('browse-universities.php'); ?>
     <title>Universities</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -6,7 +6,6 @@
         }  
     }
 ?>
-<?php redirectToLogin() ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,6 +73,8 @@
             </div>
             </a> 
 
+            
+            
         </section>
     </main>    
 </div>    <!-- / mdl-layout --> 

@@ -193,13 +193,17 @@ public function findListByName($id)
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetchAll();
    }  
-
+   
+   /*
+      Returns records based on custom $where param
+   */
    public function customWhere($where) {
       $sql = $this->getSelectStatement() . ' WHERE ' . $where;
       
       $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
       return $statement->fetchAll();
    }
+   
 
 }
 

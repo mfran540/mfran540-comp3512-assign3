@@ -1,4 +1,5 @@
 <?php
+include 'includes/login-checker.inc.php';
 require_once('includes/db-config.inc.php');
 
 //connections to each gateway class (ie. table in Database)
@@ -19,6 +20,7 @@ function printUserInfo($id,$usersDB)
 <html lang="en">
 
 <head>
+    <?php redirectToLogin('user-profile.php'); ?>
     <title>Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
