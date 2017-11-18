@@ -1,19 +1,22 @@
 <?php
 
 session_start();
-
 require_once('includes/db-config.inc.php');
 
 $usersDB = new UsersLoginGateway($connection ); 
 validLogin($usersDB);
 
+/*
+    Checks if what was input to the login form was valid. If so,
+    redirects to whatever page was previously selected.
+*/
 function validLogin($usersDB) {
     $javascript;
     $redirect = NULL;
     if(isset($_GET['location'])) {
-    if($_GET['location'] != '') {
-        $redirect = $_GET['location'];
-    }
+        if($_GET['location'] != '') {
+            $redirect = $_GET['location'];
+        }
     }
 
     if(isset($_POST['username'])){
@@ -22,19 +25,14 @@ function validLogin($usersDB) {
            if ($_SERVER["REQUEST_METHOD"] == "POST") {
                $expiryTime = time()+60*60*24;
                $_SESSION['UserName']=$_POST['username'];
-               $_SESSION['Password']=$_POST['pword'];
-               
+               $_SESSION['Password']=$_POST['pword'];  
            }
        }
        else {
-               echo "<h4 style='background-color:red;color:white; margin:auto;'>Login unsuccessful, please try again.</h4>";
-           }
-       if(isset($_SESSION['Username'])) {
-           echo "Welcome " . $_SESSION['Username'];
+            echo "<h4 style='background-color:red;color:white; margin:auto;'>Login unsuccessful, please try again.</h4>";
+           $_SESSION['failedLogin'] = true;
        }
-       else{
-        // echo "No Post detected";
-       }
+       
         if($redirect) {
             $redirect = htmlspecialchars($redirect);
             header("Location:". $redirect);
@@ -42,10 +40,12 @@ function validLogin($usersDB) {
     }
 }
     
-
-
+/*
+    Prints the login form, differs depending if it was a failed login or not
+*/
 function getLoginForm(){
-   echo "<form action='' method='post' role='form' id='mainForm'>
+    if (!isset($_SESSION['failedLogin'])) {
+        echo "<form action='' method='post' role='form' id='mainForm'>
             <div class ='form-group'>
                 <input type='text' name='username' placeholder='Username' class='form-control'/>
             </div>
@@ -54,11 +54,22 @@ function getLoginForm(){
             </div>
             <input type='submit' value='Login' class='form-control' />
         </form>";
-        if(isset($_GET['page'])) {
-            echo htmlspecialchars($_GET['page']);
-        }
-}
-
+        
+    }
+    else {
+        echo "<form action='' method='post' role='form' id='mainForm'>
+            <div class ='form-group'>
+                
+                <input type='text' name='username' placeholder='Username' class='form-control error'/>
+            </div>
+            <div class ='form-group'>
+                <input type='password' name='pword' placeholder='Password' class='form-control error'/>
+            </div>
+            <input type='submit' value='Login' class='form-control' />
+            <h5 style='color:red;'>Login unsuccessful, please try again.</h5>
+        </form>";
+    }
+}//End function
 
 ?>
 
@@ -79,7 +90,7 @@ function getLoginForm(){
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    
+    <script src="js/loginerror.js"></script>
     
 </head>
 
@@ -108,18 +119,13 @@ function getLoginForm(){
                             if (!isset($_SESSION['UserName'])) {
                                 getLoginForm();
                             }
-                            
-                            echo "<a href='logOut.php'>Log out</a>";
-                            
+                            else {
+                                echo "<a href='logOut.php'><h5>Log out</h5></a>";
+                            }
                         ?>
                     </div>
-                    
-                    
                 </div>  <!-- / Login mdl-cell + mdl-card -->
-                
-                
             </div>  <!-- / mdl-grid -->
-
         </section>
     </main>    
 </div>    <!-- / mdl-layout --> 
