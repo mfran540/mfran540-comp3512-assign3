@@ -54,7 +54,7 @@ include 'includes/login-checker.inc.php';
                         <ul>
                             <li>Analytics page</li>
                             <li>Clean-up code from assignment 1</li>
-                            <li>Gneral website styling</li>
+                            <li>General website styling</li>
                             <li>Gateway classes</li>
                         </ul>
                     </div>

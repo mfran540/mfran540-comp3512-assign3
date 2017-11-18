@@ -1,8 +1,39 @@
+ <?php 
+ require_once('includes/db-config.inc.php');
+  $usersDB = new UsersGateway($connection ); 
+
+function printUserName($id,$usersDB)
+{
+    $row = $usersDB->findById($id);
+        echo "<h4>" . $row['FirstName'] . " " . $row["LastName"] . "</h4>";
+         echo "<span>".$row['Email']."</span>";
+         //$_SESSION[]= $row['']
+    
+}
+
+?>
+  
   <div class="mdl-layout__drawer mdl-color--blue-grey-800 mdl-color-text--blue-grey-50">
        <div class="profile">
-           <img src="images/Marc.jpg" class="avatar">
-           <h4>Marc Francois</h4>           
-           <span>mfran540@mtroyal.ca</span>
+           
+           <?php 
+           
+                if(isset($_SESSION['userId'])) {
+                    echo '<img src="images/GenericUserOnline.png" class="avatar">';
+                    printUserName($_SESSION['userId'],$usersDB);
+                    
+                }
+           
+           
+               else { 
+               
+              echo '<img src="images/GenericUserOffline.png" class="avatar">';
+               
+               echo "";}?>
+           
+           
+                     
+          
        </div>
 
     <nav class="mdl-navigation mdl-color-text--blue-grey-300">

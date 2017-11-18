@@ -1,63 +1,44 @@
 <?php
+
 session_start();
-//https://stackoverflow.com/questions/14523468/redirecting-to-previous-page-after-login-php
 
 require_once('includes/db-config.inc.php');
 
 $usersDB = new UsersLoginGateway($connection ); 
 validLogin($usersDB);
-/*   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       if(validLogin()) {
-           echo "welcome " . $_POST['username'];
-           //$loggedIn = true;
-           $expiryTime = time()+60*60*24;
-           $_SESSION['UserName']=$_POST['username'];
-           $_SESSION['Password']=$_POST['pword'];
-       }
-       else {
-           echo "login unsuccessful";
-       }
-     //echo "Login attempted";
-   }
-   if(isset($_SESSION['Username'])) {
-       echo "Welcome " . $_SESSION['Username'];
-   }
-   else{
-     echo "No Post detected";
-   }*/
-
 
 function validLogin($usersDB) {
-    //$pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
-    //$sql = "SELECT * FROM UsersLogin WHERE Username=:user and Password=:pass";
-    //$statement = $pdo->prepare($sql);
-    //$statement->bindvalue(':user',$_POST['username']);
-    //$statement->bindValue(':pass',$_POST['pword']);
-    //$statement->execute();
+    $redirect = NULL;
+    if(isset($_GET['location'])) {
+    if($_GET['location'] != '') {
+        $redirect = $_GET['location'];
+    }
+    }
+
     if(isset($_POST['username'])){
-    $result = $usersDB->userExists($_POST['username'], $_POST['pword']);
-    if ($result == true) {
-       if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       //if(validLogin()) {
-           echo "welcome " . $_POST['username'];
-           //$loggedIn = true;
-           $expiryTime = time()+60*60*24;
-           $_SESSION['UserName']=$_POST['username'];
-           $_SESSION['Password']=$_POST['pword'];
+        $result = $usersDB->userExists($_POST['username'], $_POST['pword']);
+        if ($result == true) {
+           if ($_SERVER["REQUEST_METHOD"] == "POST") {
+               $expiryTime = time()+60*60*24;
+               $_SESSION['UserName']=$_POST['username'];
+               $_SESSION['Password']=$_POST['pword'];
+               
+           }
        }
        else {
-           echo "login unsuccessful";
+               echo "<h4 style='background-color:red;color:white; margin:auto;'>Login unsuccessful, please try again.</h4>";
+           }
+       if(isset($_SESSION['Username'])) {
+           echo "Welcome " . $_SESSION['Username'];
        }
-     //echo "Login attempted";
-   }
-   if(isset($_SESSION['Username'])) {
-       echo "Welcome " . $_SESSION['Username'];
-   }
-   else{
-     echo "No Post detected";
-   }
-    //return $result; 
-}
+       else{
+        // echo "No Post detected";
+       }
+        if($redirect) {
+            $redirect = htmlspecialchars($redirect);
+            header("Location:". $redirect);
+        }
+    }
 }
     
 
@@ -122,7 +103,6 @@ function getLoginForm(){
                         </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <!--<strong>Please enter your username and password.</strong><br>-->
                         <?php 
                             if (!isset($_SESSION['UserName'])) {
                                 getLoginForm();
@@ -132,9 +112,6 @@ function getLoginForm(){
                             
                         ?>
                     </div>
-                    
-                    
-                    
                     
                     
                 </div>  <!-- / Login mdl-cell + mdl-card -->

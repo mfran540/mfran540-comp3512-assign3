@@ -66,7 +66,7 @@ function printTopBooks($adoptionsDB) {
 <html lang="en">
 
 <head>
-    <?php //redirectToLogin('analytics.php'); ?>
+    <?php redirectToLogin('analytics.php'); ?>
     <title>Admin Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

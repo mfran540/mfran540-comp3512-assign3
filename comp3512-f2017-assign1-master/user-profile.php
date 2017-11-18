@@ -52,7 +52,7 @@ function printUserInfo($id,$usersDB)
             <div class="mdl-grid">
                 <div class="mdl-card mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-shadow--2dp" id="profilecard" >
                     
-                    <figure id="singleImage" class="mdl-card__media"><img src="images/Marc.jpg"/>
+                    <figure id="singleImage" class="mdl-card__media"><img  src="images/GenericUserOnline.png"/>
                     </figure>
                     <div class="mdl-card__title">
                         
@@ -61,7 +61,7 @@ function printUserInfo($id,$usersDB)
                         
                         <?php 
                         
-                        printUserInfo(1,$usersDB);
+                        printUserInfo($_SESSION['userId'],$usersDB);
                         
                         //closing PDO connection
                         $connection = null;

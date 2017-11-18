@@ -40,6 +40,8 @@ class UsersLoginGateway extends TableDataGateway {
             
             if($epassword == $result['Password'])
             {
+                
+                $_SESSION['userId'] = $result['UserID'];
                 return true;
                // echo "it works";
             }

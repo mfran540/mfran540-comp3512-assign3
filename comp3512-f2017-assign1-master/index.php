@@ -1,10 +1,7 @@
 <?php
 
-    function redirectToLogin() {
-        if(!isset($_SESSION['UserName'])) {
-            header('Location: login.php?page=' . urlencode($_SERVER['REQUEST_URI']));
-        }  
-    }
+include 'includes/login-checker.inc.php';
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">

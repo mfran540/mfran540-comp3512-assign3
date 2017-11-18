@@ -113,7 +113,7 @@ function printError($employeeDB) {
 <html lang="en">
 
 <head>
-    <?php //redirectToLogin('browse-employees.php'); ?>
+    <?php redirectToLogin('browse-employees.php'); ?>
     <title>Employees</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
