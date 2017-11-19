@@ -1,65 +1,40 @@
 <?php
-require_once('config.php');
+include 'includes/login-checker.inc.php';
+require_once('includes/db-config.inc.php');
 
-function createPDO() {
-    try {
-    $pdo = new PDO(DBCONNSTRING,DBUSER,DBPASS);
-     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (PDOException $e) {
-        die( $e->getMessage() );
-    }
-    return $pdo;
-    $pdo = null;
-}
-
-function callDB($sql, $id) {
-    $pdo = createPDO();
-    $result = $pdo->prepare($sql);
-    $result->bindValue(':id', $id);
-    $result->execute();
-    return $result;
-    $pdo = null;
-}
+$booksDB = new BooksGateway($connection );
+$authorDB = new AuthorsGateway($connection );
+$universitiesDB = new UniversitiesGateway($connection);
 
 /*
     Displays the info from database depending on which type is passed in
 */
-function displayText($name) {
-    $sql = 'SELECT ISBN10, ISBN13, Title, CopyrightYear, Subcategories.SubcategoryName, Imprints.Imprint, Statuses.Status, BindingTypes.BindingType,
-		            TrimSize, PageCountsEditorialEst, Books.Description
-            FROM Books
-            INNER JOIN Subcategories ON Books.SubcategoryID=Subcategories.SubcategoryID
-            INNER JOIN Imprints ON Books.ImprintID=Imprints.ImprintID
-            INNER JOIN Statuses ON Books.ProductionStatusID=Statuses.StatusID
-            INNER JOIN BindingTypes ON Books.BindingTypeID=BindingTypes.BindingTypeID
-            WHERE Books.ISBN10=:id';
-    $result = callDB($sql, $_GET['isbn10']);
-    while ($row = $result->fetch() ) {
-        if ($name == 'SubcategoryName'){
-            echo "<a href='browse-books.php?subcat=".$row[$name]."'>".$row[$name]."</a>";
-        }
-        else if ($name == 'Imprint'){
-            echo "<a href='browse-books.php?Imprint=".$row[$name]."'>".$row[$name]."</a>";
-        }
-        else {
-        echo $row[$name];
-        }
+function displayText($booksDB) {
+    $result = $booksDB->findListById($_GET['isbn10']);
+    foreach ($result as $row) {
+        echo "
+        <div id='cardtitle' class='mdl-card__title'>
+        <h1 id='singlebooktitle' class='mdl-card__title-text'>".$row['Title'].$row['CopyrightYear']." </h1></div>
+        <div class='mdl-card__supporting-text'><h5>Details</h5>
+        <p>ISBN10:".$row['ISBN10']."</p>
+        <p>ISBN13:".$row['ISBN13']."</p>
+        <p>Subcategory:".$row['SubcategoryName']."</p>
+        <p>Imprint:".$row['Imprint']."</p>
+        <p>Production Status:".$row['Status']."</p>
+        <p>Binding Type:".$row['BindingType']."</p>
+        <p>Trim size:".$row['TrimSize']."</p>
+        <p>Page count:".$row['PageCountsEditorialEst']."</p>
+        <p><h5>Description</h5>".$row['Description']."</p></div>";
     }
+                    
 }
 
 /*
     Prints the authors of the book in a list
 */
-function printAuthors() {
-    $sql = 'SELECT FirstName, LastName, Books.ISBN10, Books.BookID
-            FROM Authors
-            INNER JOIN BookAuthors ON Authors.AuthorID=BookAuthors.AuthorID
-            INNER JOIN Books ON BookAuthors.BookID=Books.BookID
-            WHERE Books.ISBN10=:id
-            ORDER BY BookAuthors.Order';
-    $result = callDB($sql, $_GET['isbn10']);
-    while ($row = $result->fetch() ) {
+function printAuthors($authorDB) {
+    $result = $authorDB->findListByIdSorted(true, $_GET['isbn10']);
+    foreach ($result as $row) {
         echo $row['FirstName'] . ' ' . $row['LastName'] . '<br>' . '<br>';
     }
 }
@@ -67,16 +42,9 @@ function printAuthors() {
 /*
     Prints a list of universites that adopted the book with a link back to university page
 */
-function printUniversities() {
-    $sql = 'SELECT Universities.Name, Universities.UniversityID, Books.ISBN10
-        FROM Universities
-        INNER JOIN Adoptions ON Universities.UniversityID = Adoptions.UniversityID
-        INNER JOIN AdoptionBooks ON Adoptions.AdoptionID = AdoptionBooks.AdoptionID
-        INNER JOIN Books ON AdoptionBooks.BookID = Books.BookID
-        WHERE Books.ISBN10=:id
-        ORDER BY Name';
-    $result = callDB($sql, $_GET['isbn10']);
-    while ($row = $result->fetch() ) {
+function printUniversities($universitiesDB) {
+    $result = $universitiesDB->adoptedUniversitiesList($_GET['isbn10']);
+    foreach ($result as $row) {
         echo "<a href='browse-universities.php?university=".$row['UniversityID']."'>".$row['Name'] . '</a><br>';
     }
 }
@@ -85,7 +53,7 @@ function printUniversities() {
     Hides contents of page if query string is incorrect
 */
 function displayPage () {
-    if (!isset($_GET['isbn10']) || !isGoodQS()) {
+    if (!isset($_GET['isbn10'])) {
         echo ' style="display:none;"';
     }
 }
@@ -93,27 +61,17 @@ function displayPage () {
 /*
     Prints an error if the query string is not there or incorrect
 */
-function printError() {
+function printError($booksDB) {
     if (!isset($_GET['isbn10']) ) {
-        echo '<h4 class="singleerror">Please go to <a href="browse-books.php"><strong>books page</strong></a> to select a book.</h4>';
     }
-    else if (!isGoodQS()) {
-        echo '<h4 class="singleerror">Did not understand request. Try going back to the <a href="browse-books.php"><strong>books page.</strong></a></h4>';
-    }
-}
-
-/*
-    Checks to see if the query string is correct
-*/
-function isGoodQS() {
-    $result = true;
-    $testQuery = callDB("SELECT ISBN10 FROM Books WHERE ISBN10=:id", $_GET['isbn10']);
-        if ( $testQuery->rowCount() == 0 ) {
-            $result = false;
+    else {
+        /* checks if the books id is empty or not in the table*/
+        $testQuery = $booksDB->findById($_GET['isbn10']);
+        if($testQuery == null){
+            echo '<h4>Did not understand request. Try going back to the books list and clicking on a book.</h4>';
         }
-    return $result;
+    }
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -145,20 +103,7 @@ function isGoodQS() {
             
     <?php include 'includes/header.inc.php'; ?>
     <?php include 'includes/left-nav.inc.php'; ?>
-    
-    <style type="text/css">
-        #largeImage{
-            text-align: center;
-            position: absolute;
-            visibility: hidden;
-            z-index: 100;
-            top: 0; left: 0; 
-            padding-top: 3em;
-            width:100%;
-            height:100%; 
-            background-color: rgba(100,100,100, .5)
-        }
-    </style>
+
     <script>
         function enlargeImage (id) {
             document.querySelector(id).style.visibility = "visible";
@@ -170,7 +115,7 @@ function isGoodQS() {
         }        
     </script>
     <main class="mdl-layout__content mdl-color--grey-50">
-        <?php printError(); ?>
+        <?php printError($booksDB); ?>
         <section class="page-content" <?php displayPage() ?>>
         <div id="largeImage">
             <img src="book-images/large/<?php echo $_GET['isbn10'] ?>.jpg" onclick="hideImage(this)"/>
@@ -180,22 +125,7 @@ function isGoodQS() {
                     <figure id="singleImage" class="mdl-card__media">
                         <img src="book-images/medium/<?php echo $_GET['isbn10'] ?>.jpg" onclick="enlargeImage('#largeImage')"/>
                     </figure>
-                    <div id="cardtitle" class="mdl-card__title">
-                        <h1 id="singlebooktitle" class="mdl-card__title-text"><?php displayText('Title'); ?> (<?php displayText('CopyrightYear') ?>)</h1>
-                    </div>
-                    <div class="mdl-card__supporting-text">
-                        <h5>Details</h5>
-                        <p>ISBN10: <?php echo $_GET['isbn10']; ?></p>
-                        <p>ISBN13: <?php displayText('ISBN13'); ?></p>
-                        <p>Subcategory: <?php displayText('SubcategoryName'); ?></p>
-                        <p>Imprint: <?php displayText('Imprint'); ?></p>
-                        <p>Production Status: <?php displayText('Status'); ?></p>
-                        <p>Binding Type: <?php displayText('BindingType'); ?></p>
-                        <p>Trim size: <?php displayText('TrimSize'); ?></p>
-                        <p>Page count: <?php displayText('PageCountsEditorialEst'); ?></p>
-                        
-                        <p><h5>Description</h5><?php displayText('Description'); ?></p>
-                    </div>
+                    <?php displayText($booksDB); ?>
                 </div>
                 
                 <!-- mdl-cell + mdl-card -->
@@ -207,7 +137,7 @@ function isGoodQS() {
                         <ul class="demo-list-item mdl-list">
                         <h5>
                          <?php  
-                            printAuthors();
+                            printAuthors($authorDB);
                          ?>
                             </h5>
                         </ul>
@@ -223,7 +153,7 @@ function isGoodQS() {
                         <ul class="demo-list-item mdl-list">
 
                          <?php  
-                           printUniversities();
+                           printUniversities($universitiesDB);
                          ?>            
 
                         </ul>

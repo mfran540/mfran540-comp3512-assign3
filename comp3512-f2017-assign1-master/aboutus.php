@@ -103,10 +103,11 @@ include 'includes/login-checker.inc.php';
                     <div class="mdl-card__supporting-text">
                         <p><strong>Responsibilities</strong>:</p>
                          <ul>
-                            <li>Navigation page</li>
-                            <li>About Us page</li>
-                            <li>Simple Search functionality</li>
+                            <li>Browse Employees Page</li>
+                            <li>Single Book Page</li>
                             <li>Gateway classes</li>
+                            <li>About Us page</li>
+                            <li>Documentation & Code Cleanup</li>
                         </ul>
                     </div>
                 </div>

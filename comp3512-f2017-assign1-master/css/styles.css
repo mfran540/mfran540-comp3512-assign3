@@ -8,7 +8,17 @@ header h1 span {
 .employee_filter {
   display:none;
 }
-                    
+#largeImage{
+            text-align: center;
+            position: absolute;
+            visibility: hidden;
+            z-index: 100;
+            top: 0; left: 0; 
+            padding-top: 3em;
+            width:100%;
+            height:100%; 
+            background-color: rgba(100,100,100, .5)
+}                  
 .profile {
    background-color: #263238;
     display: flex;
@@ -192,8 +202,10 @@ main header h4 {
     text-align:left;
     border-left: 1px solid #E0E0E0;
   }
-  
-  
+
+  .books-card.mdl-cell:hover {
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12), 0 5px 5px -3px rgba(0, 0, 0, .2);
+  }
   
   .analytics h4 {
     margin: 0;

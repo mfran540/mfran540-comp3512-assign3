@@ -207,7 +207,40 @@ abstract class TableDataGateway
       return $statement->fetchAll();
    }
    
-
+   // Returns list of records for the custom sql adpoted universities list
+   public function adoptedUniversitiesList($id) {
+      $sql = $this->adoptedUniversities() . ' WHERE '. $this->getUniPrimaryKey(). '=:id ' . ' ORDER BY ' . $this->getUniOrder();
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
+      return $statement->fetchAll();
+   }
+   
+   // Returns list of records by Imprint ID
+   public function findListByImprint($id) {
+      $sql = $this->getBookSelectStatement() . ' WHERE '. $this->getImprintKeyName(). '=:id ' . ' ORDER BY ' . $this->getOrderFields();
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
+      return $statement->fetchAll();
+   }
+   
+   // Returns list of records by SubCat ID
+   public function findListBySubcat($id) {
+      $sql = $this->getBookSelectStatement() . ' WHERE '. $this->getSubcatKeyName(). '=:id ' . ' ORDER BY ' . $this->getOrderFields();
+      
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
+      return $statement->fetchAll();
+   }
+   
+   //Returns list of all book records with limit of 20
+   public function findAllBooksSorted($ascending)
+   {
+      $sql = $this->getBookSelectStatement() . ' ORDER BY ' . $this->getOrderFields() . " LIMIT 0,20";
+      if (! $ascending) {
+         $sql .= " DESC";
+      }
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
+      return $statement->fetchAll();
+   }
 }
 
 ?>

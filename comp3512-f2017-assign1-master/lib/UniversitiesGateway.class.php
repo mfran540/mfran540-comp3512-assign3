@@ -28,6 +28,22 @@ class UniversitiesGateway extends TableDataGateway {
         return "SELECT * FROM Universities";   
     }
     
+    //SQL for accessing the custom list of adopted universities
+    protected function adoptedUniversities()
+    {
+        return 'SELECT Universities.Name, Universities.UniversityID, Books.ISBN10
+        FROM Universities
+        INNER JOIN Adoptions ON Universities.UniversityID = Adoptions.UniversityID
+        INNER JOIN AdoptionBooks ON Adoptions.AdoptionID = AdoptionBooks.AdoptionID
+        INNER JOIN Books ON AdoptionBooks.BookID = Books.BookID '; 
+    }
+    protected function getUniOrder() {
+        return 'Name ';
+    }
+    protected function getUniPrimaryKey() {
+        return 'Books.ISBN10 ';
+    }
+    
     //Returns a list of universities by specified ID
     public function findListByName($id)
     {
