@@ -9,22 +9,6 @@ require_once('includes/db-config.inc.php');
 //$messagesDB = new MessagesGateway($connection);
 $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
 
-/*
-    Creates the top 15 countries list
-*/
-
-/*function printTopFifteen($visitsDB) {
-    $result = $visitsDB->findAllSortedLimitedGrouped(false, 15);
-    $num = 1;
-    foreach ($result as $row) {
-        echo '<tr><td>' . $num . '. ' . $row['CountryName']. '</td><td>' . $row['Visits'] . '</td></tr>';
-        $num = $num+1;
-    }
-}*/
-
-
-
-
 
 ?>
 
@@ -46,11 +30,105 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <script type="text/javascript">
+/*******************************************************************/
+//display google area chart
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+          $.get("service-chartMonth.php")
+            .done(function(data3) {
+                var head = ['Day', 'Visits'];
+                var list = [];
+                list.push(head);
+                
+                for(var i = 0; i <data3.length; i++) {
+                    var row = [];
+                    row.push(data3[i].DateViewed);
+                    row.push(data3[i].Visits);
+                    list.push(row);
+                }
+                
+                var data = google.visualization.arrayToDataTable(list);
+                var options = {
+                    title: 'Number Visits',
+                    hAxis: {title: 'Day',  titleTextStyle: {color: '#333'}},
+                    vAxis: {minValue: 0}
+                };
+                
+                var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            })
+            .fail(function(jqXHR) {
+                alert(jqXHR.status);
+            })
+            .always(function() {
+                //Do nothing
+            });
+      }
+      
+/********************************************************************/     
+    </script>
+    
+    <script type="text/javascript">
+/********************************************************************/    
+//display google geo chart
+
+      google.charts.load('current', {
+        'packages':['geochart'],
+        'mapsApiKey': 'AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+          $.get('service-chartCountryVisits.php')
+            .done(function(data2) {
+                var head = ['Country', 'Visits'];
+                var list = [];
+                
+                list.push(head);
+
+                for(var i = 0; i < data2.length; i++) {
+                    var row = [];
+                    
+                    row.push(data2[i].CountryName);
+                    row.push(data2[i].Visits);
+                    list.push(row);
+                }
+                
+                var data = google.visualization.arrayToDataTable(list);
+                var options = {};
+                var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+                chart.draw(data, options);
+            
+            })
+            .fail(function(jqXHR) {
+                alert(jqXHR.status);
+            })
+            .always(function() {
+                //Do nothing
+            });
+            
+        /*var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);*/
+      }
+      
+/*********************************************************************/
+    </script>
+    
     <script>
-    
-    
-        
-        
+/*********************************************************************/
+// display the top 15 most visited countries
+
     $(function() {
         var url = 'service-topCountries.php';
         $.get(url)
@@ -67,7 +145,7 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
         .always(function() {
             //Do nothing
         });
-        
+        // when a country is selected, immediately show the number of visits
        $("#fifteen").on('change', function() {
             var url2 = 'service-countryVisits.php';
             var param = "countryCode=" + $('#fifteen').val();
@@ -85,6 +163,7 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
         });
     });
     
+/*********************************************************************/
     </script>
 </head>
 
@@ -197,11 +276,12 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
                             <th>Book</th>
                             <th>Quantity</th>
                         </tr>
-                        <?php// printTopBooks($adoptionsDB); ?>
                     </table>
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
             </div>  <!-- / mdl-grid -->
+            <div id="regions_div" style="width: 900px; height: 500px;"></div>
+            <div id="chart_div" style="width: 100%; height: 500px;"></div>
         </section>
     </main>    
 </div>    <!-- / mdl-layout --> 
@@ -235,32 +315,12 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
             }
         });
 </script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {
-        'packages':['geochart'],
-        // Note: you will need to get a mapsApiKey for your project.
-        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-        'mapsApiKey': 'AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE'
-      });
-      google.charts.setOnLoadCallback(drawRegionsMap);
 
-      function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'Popularity'],
-          ['Germany', 200],
-          ['United States', 300],
-          ['Brazil', 400],
-          ['Canada', 500],
-          ['France', 600],
-          ['RU', 700]
-        ]);
 
-        var options = {};
+    
 
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
-        chart.draw(data, options);
-      }
-
+    
 </html>
+
+

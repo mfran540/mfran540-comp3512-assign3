@@ -241,6 +241,11 @@ abstract class TableDataGateway
       $statement = DatabaseHelper::runQuery($this->connection, $sql, null);
       return $statement->fetchAll();
    }
+   
+   public function customStatement($custom) {
+      $statement = DatabaseHelper::runQuery($this->connection, $custom, null);
+      return $statement->fetchAll();
+   }
 }
 
 ?>
