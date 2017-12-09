@@ -7,8 +7,8 @@ class BooksGateway extends TableDataGateway {
     
     protected function getSelectStatement()
     {
-        return 'SELECT ISBN10, ISBN13, Title, CopyrightYear, Subcategories.SubcategoryName, Imprints.Imprint, Statuses.Status, BindingTypes.BindingType,
-		            TrimSize, PageCountsEditorialEst, Books.Description
+        return 'SELECT ISBN10, ISBN13, Title, CopyrightYear, Subcategories.SubcategoryName, Subcategories.SubcategoryID, Imprints.Imprint,Imprints.ImprintID, 
+                Statuses.Status, BindingTypes.BindingType, TrimSize, PageCountsEditorialEst, Books.Description
             FROM Books
             INNER JOIN Subcategories ON Books.SubcategoryID=Subcategories.SubcategoryID
             INNER JOIN Imprints ON Books.ImprintID=Imprints.ImprintID

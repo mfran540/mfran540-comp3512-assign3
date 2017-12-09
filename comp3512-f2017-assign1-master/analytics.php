@@ -1,84 +1,30 @@
 <?php
-
+//include 'webservices/service-topCountries.php';
 include 'includes/login-checker.inc.php';
 
 //Create and instantiate database gateways
 require_once('includes/db-config.inc.php');
-$visitsDB = new BookVisitsGateway($connection);
-$todosDB = new EmployeesToDoGateway($connection);
-$messagesDB = new MessagesGateway($connection);
+//$visitsDB = new BookVisitsGateway($connection);
+//$todosDB = new EmployeesToDoGateway($connection);
+//$messagesDB = new MessagesGateway($connection);
 $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
 
 /*
     Creates the top 15 countries list
 */
-function printTopFifteen($visitsDB) {
+
+/*function printTopFifteen($visitsDB) {
     $result = $visitsDB->findAllSortedLimitedGrouped(false, 15);
     $num = 1;
     foreach ($result as $row) {
         echo '<tr><td>' . $num . '. ' . $row['CountryName']. '</td><td>' . $row['Visits'] . '</td></tr>';
         $num = $num+1;
     }
-}
+}*/
 
-/*
-    Prints out the total visits to website
-*/
-function totalVisits($visitsDB) {
-    $result = $visitsDB->findAll();
-    foreach ($result as $row) {
-        echo $row['Visits'];
-    }
-}
 
-/*
-    Prints out the total number of unique country visits
-*/
-function totalUniqueCountries($visitDB) {
-    $result = $visitDB->findAllGrouped();
-    $count = 0;
-    foreach ($result as $row) {
-        $count++;
-    }
-    echo $count;
-}
 
-/*
-    Prints out the total number of todos in month of June 2017
-*/
-function printTotalTodos($todosDB) {
-    $result = $todosDB->customWhere("DateBy BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'");
-    $count = 0;
-    foreach ($result as $row) {
-        $count++;
-    }
-    echo $count;
-}
 
-/*
-    Prints out the total number of employee messages in June 2017
-*/
-function printTotalMessages($messagesDB) {
-    $result = $messagesDB->customWhere("MessageDate BETWEEN '2017-06-01 00:00:00' AND '2017-06-30 00:00:00'");
-    $count = 0;
-    foreach ($result as $row) {
-        $count++;
-    }
-    echo $count;
-}
-
-/*
-    Prints out the top 10 adopted books by universities
-    Ordered by the amount of universities each book was adopted by
-*/
-function printTopBooks($adoptionsDB) {
-    $result = $adoptionsDB->findAllSortedLimitedGrouped(false, 10);
-    foreach($result as $row) {
-        echo '<tr><td><img src="./book-images/tinysquare/' . $row['ISBN10'] . '.jpg"> ' . 
-        '<a href="single-book.php?isbn10=' . $row['ISBN10'] . '">' . 
-        $row['Title'] . '</a></td><td>' . $row['Quantity'] . '</td></tr>';
-    }
-}
 
 ?>
 
@@ -100,7 +46,46 @@ function printTopBooks($adoptionsDB) {
     <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
     
+    
+        
+        
+    $(function() {
+        var url = 'service-topCountries.php';
+        $.get(url)
+            .done(function(data) {
+                $("#fifteen").append("<option>Select a country</option>");
+                for (var i = 0; i < data.length; i++) {
+                    var option = '<option value=' + data[i].CountryCode + '>' + data[i].CountryName + '</option>';
+                    $("#fifteen").append(option);
+                }
+        })
+        .fail(function(jqXHR) {
+            alert(jqXHR.status);
+        })
+        .always(function() {
+            //Do nothing
+        });
+        
+       $("#fifteen").on('change', function() {
+            var url2 = 'service-countryVisits.php';
+            var param = "countryCode=" + $('#fifteen').val();
+            $.get(url2, param)
+                .done(function(data) {
+                    $("#topfifteen").html("<h4>" + data["CountryName"] + ": " + data['Visits'] + " visits</h4>");
+                })
+                .fail(function(jqXHR) {
+                    alert(jqXHR.status);
+                })
+                .always(function() {
+            //Do nothing
+            });
+            
+        });
+    });
+    
+    </script>
 </head>
 
 <body>
@@ -136,7 +121,7 @@ function printTopBooks($adoptionsDB) {
                         </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <h4><?php totalVisits($visitsDB); ?></h4>
+                        <h4 id='totalVisits'></h4>
                     </div>
                 </div>
                 
@@ -148,7 +133,7 @@ function printTopBooks($adoptionsDB) {
                         </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <h4><?php totalUniqueCountries($visitsDB); ?></h4>
+                        <h4 id="totalCountries"></h4>
                     </div>
                 </div>
                 
@@ -160,7 +145,7 @@ function printTopBooks($adoptionsDB) {
                         </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <h4><?php printTotalTodos($todosDB); ?></h4>
+                        <h4 id="totalTodos"></h4>
                     </div>
                 </div>
                 
@@ -172,7 +157,7 @@ function printTopBooks($adoptionsDB) {
                         </h2>
                     </div>
                     <div class="mdl-card__supporting-text">
-                        <h4><?php printTotalMessages($messagesDB); ?></h4>
+                        <h4 id="totalMessages"></h4>
                     </div>
                 </div>
                 
@@ -184,12 +169,18 @@ function printTopBooks($adoptionsDB) {
                             <i class="material-icons" role="presentation">equalizer</i>&nbsp;Top 15 Countries by Visits
                         </h2>
                     </div>
+                    <form action="analytics.php" method='get'>
+                        <select id="fifteen" name="country" >
+                            
+                        </select>
+                    </form>
                     <table id="topfifteen">
                         <tr>
                             <th>Country</th>
                             <th>Number of Visits</th>
                         </tr>
-                        <?php printTopFifteen($visitsDB); ?>
+
+                        <?php //printTopFifteen($visitsDB); ?>
                     </table>
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
@@ -206,7 +197,7 @@ function printTopBooks($adoptionsDB) {
                             <th>Book</th>
                             <th>Quantity</th>
                         </tr>
-                        <?php printTopBooks($adoptionsDB); ?>
+                        <?php// printTopBooks($adoptionsDB); ?>
                     </table>
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
@@ -216,4 +207,60 @@ function printTopBooks($adoptionsDB) {
 </div>    <!-- / mdl-layout --> 
           
 </body>
+
+<script>
+    //Grabs numbers to fill in first four boxes (purple boxes)
+    $.get('service-totals.php')
+        .done(function(data) {
+            $("#totalVisits").text(data['totalVisits']);
+            $("#totalCountries").text(data['totalCountries']);
+            $("#totalTodos").text(data['totalTodos']);
+            $("#totalMessages").text(data['totalMessages']);
+        })
+        .fail(function(jqXHR) {
+            alert(jqXHR.status);
+        })
+        .always(function() {
+            //Do nothing
+        });
+    
+    //Gets book information from web service and displays it in table
+    $.get('service-topAdoptedBooks.php')
+        .done(function(data) {
+            for(var i = 0; i<data.length; i++) {
+                var row = $("<tr><td><img src='./book-images/tinysquare/" + data[i].ISBN10 
+                + ".jpg'> <a href='single-book.php?isbn10=" + data[i].ISBN10 + "'>" +
+                data[i].Title + "</a></td><td>" + data[i].Quantity + "</td></tr>");
+                $("#topten").append(row);
+            }
+        });
+</script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyA0KMuUs2e7A8q-WRE3J7yxWOZpsZ35HVE'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Popularity'],
+          ['Germany', 200],
+          ['United States', 300],
+          ['Brazil', 400],
+          ['Canada', 500],
+          ['France', 600],
+          ['RU', 700]
+        ]);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+
 </html>

@@ -7,5 +7,5 @@
 
 <script>
     //Redirects back to index page after logout
-     window.location.href="index.php";
+     window.location.href="login.php";
 </script>

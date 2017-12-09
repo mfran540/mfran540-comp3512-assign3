@@ -85,6 +85,7 @@ function displayImprint($imprintDB){
 <html lang="en">
 
 <head>
+    <?php redirectToLogin('browse-universities.php'); ?>
     <title>Assignment 1</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

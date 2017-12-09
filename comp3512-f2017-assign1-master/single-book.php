@@ -18,8 +18,8 @@ function displayText($booksDB) {
         <div class='mdl-card__supporting-text'><h5>Details</h5>
         <p>ISBN10:".$row['ISBN10']."</p>
         <p>ISBN13:".$row['ISBN13']."</p>
-        <p>Subcategory:".$row['SubcategoryName']."</p>
-        <p>Imprint:".$row['Imprint']."</p>
+        <p>Subcategory: <a href = 'browse-books.php?subcat=".$row['SubcategoryID']."'>".$row['SubcategoryName']."</a></p>
+        <p>Imprint: <a href = 'browse-books.php?imprint=".$row['ImprintID']."'>".$row['Imprint']."</a></p>
         <p>Production Status:".$row['Status']."</p>
         <p>Binding Type:".$row['BindingType']."</p>
         <p>Trim size:".$row['TrimSize']."</p>
@@ -112,7 +112,7 @@ function printError($booksDB) {
         function hideImage (image) {
             image.style.visibility = "hidden";
             window.location.reload();
-        }        
+        }
     </script>
     <main class="mdl-layout__content mdl-color--grey-50">
         <?php printError($booksDB); ?>

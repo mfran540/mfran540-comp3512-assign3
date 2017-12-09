@@ -13,7 +13,7 @@ class AdoptionsAnalyticsGateway extends TableDataGateway {
     }
     
     protected function getOrderFields() {
-        return 'Num';
+        return 'Quantity';
     }
     
     protected function getPrimaryKeyName() {
