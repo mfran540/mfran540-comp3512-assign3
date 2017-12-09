@@ -127,8 +127,8 @@ include 'includes/login-checker.inc.php';
                             <h4>- book-complete.sql data</h4>
                             <h4>- Book images</h4>
                             <h4>- How to dynamically add rows to a google chart (https://stackoverflow.com/questions/28165195/how-to-dynamically-add-row-to-google-chart-with-for-loop)</h4>
-                            <h4>- Google chart scripts (https://developers.google.com/chart/interactive/docs/gallery)</h4>
-                            <h4>- Google map scripts (https://developers.google.com/maps/documentation/javascript/adding-a-google-map)</h4>
+                            <h4>- Base code for Google charts (https://developers.google.com/chart/interactive/docs/gallery)</h4>
+                            <h4>- Base code for Google map (https://developers.google.com/maps/documentation/javascript/adding-a-google-map)</h4>
                         </ul>
                     </div>
                   </div> <!-- / mdl-cell + mdl-card -->

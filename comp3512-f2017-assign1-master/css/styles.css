@@ -225,3 +225,16 @@ main header h4 {
 .highlight {
     background-color: #FFE0B2;
 }  
+
+#regions_div, #chart_div {
+  margin:auto;
+}
+
+#fifteen {
+  margin-top:15px;
+  width:100%;
+}
+
+#top15visits {
+  height:175px;
+}

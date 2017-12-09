@@ -69,7 +69,19 @@ function printUserInfo($id,$usersDB)
                         //closing PDO connection
                         $connection = null;
                         ?>
+                        <!-- Flat button with ripple -->
+                       
                     </div>
+                     <form action="#">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" id="sample1">
+    <label class="mdl-textfield__label" for="sample1">Text...</label>
+  </div>
+</form>
+<button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+  Button
+</button>
+
                 </div>
             </div>
         </section>

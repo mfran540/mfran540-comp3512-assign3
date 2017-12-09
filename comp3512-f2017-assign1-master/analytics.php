@@ -1,13 +1,8 @@
 <?php
-//include 'webservices/service-topCountries.php';
 include 'includes/login-checker.inc.php';
 
 //Create and instantiate database gateways
 require_once('includes/db-config.inc.php');
-//$visitsDB = new BookVisitsGateway($connection);
-//$todosDB = new EmployeesToDoGateway($connection);
-//$messagesDB = new MessagesGateway($connection);
-$adoptionsDB = new AdoptionsAnalyticsGateway($connection);
 
 
 ?>
@@ -57,6 +52,7 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
                 var data = google.visualization.arrayToDataTable(list);
                 var options = {
                     title: 'Number Visits',
+                    height: 400,
                     hAxis: {title: 'Day',  titleTextStyle: {color: '#333'}},
                     vAxis: {minValue: 0}
                 };
@@ -90,23 +86,19 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
             .done(function(data2) {
                 var head = ['Country', 'Visits'];
                 var list = [];
-                
                 list.push(head);
-
+                //populate array for google geo chart
                 for(var i = 0; i < data2.length; i++) {
                     var row = [];
-                    
                     row.push(data2[i].CountryName);
                     row.push(data2[i].Visits);
                     list.push(row);
                 }
-                
+                //display geo chart
                 var data = google.visualization.arrayToDataTable(list);
                 var options = {};
                 var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
                 chart.draw(data, options);
-            
             })
             .fail(function(jqXHR) {
                 alert(jqXHR.status);
@@ -115,11 +107,6 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
                 //Do nothing
             });
             
-        /*var options = {};
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-        chart.draw(data, options);*/
       }
       
 /*********************************************************************/
@@ -242,7 +229,7 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
                 
                 
                 <!-- mdl-cell + mdl-card -->
-                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--9-col-phone card-lesson mdl-card  mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--9-col-phone card-lesson mdl-card  mdl-shadow--2dp" id="top15visits">
                     <div class="mdl-card__title mdl-color--indigo mdl-color-text--white">
                         <h2 class="mdl-card__title-text">
                             <i class="material-icons" role="presentation">equalizer</i>&nbsp;Top 15 Countries by Visits
@@ -255,11 +242,9 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
                     </form>
                     <table id="topfifteen">
                         <tr>
-                            <th>Country</th>
-                            <th>Number of Visits</th>
+                            <th>Select a country above</th>
+                            <th></th>
                         </tr>
-
-                        <?php //printTopFifteen($visitsDB); ?>
                     </table>
                 </div>  <!-- / mdl-cell + mdl-card -->
                     
@@ -278,10 +263,28 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
                         </tr>
                     </table>
                 </div>  <!-- / mdl-cell + mdl-card -->
+                
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--6-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--indigo mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">timeline</i>&nbsp;Daily Visit Count Area Chart
+                        </h2>
+                    </div>
+                    <div id="chart_div" style="width: 100%; height: 400px;"></div>
+                </div>  <!-- / mdl-cell + mdl-card -->
                     
+                <!-- mdl-cell + mdl-card -->
+                <div class="mdl-cell mdl-cell--6-col card-lesson mdl-card  mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-color--green mdl-color-text--white">
+                        <h2 class="mdl-card__title-text">
+                            <i class="material-icons" role="presentation">my_location</i>&nbsp;Country Visits Geo Chart
+                        </h2>
+                    </div>
+                    <div id="regions_div" style="width: 100%; height: 500px;"></div>
+                </div>  <!-- / mdl-cell + mdl-card -->
+                
             </div>  <!-- / mdl-grid -->
-            <div id="regions_div" style="width: 900px; height: 500px;"></div>
-            <div id="chart_div" style="width: 100%; height: 500px;"></div>
         </section>
     </main>    
 </div>    <!-- / mdl-layout --> 
@@ -316,11 +319,4 @@ $adoptionsDB = new AdoptionsAnalyticsGateway($connection);
         });
 </script>
 
-
-    
-
-
-    
 </html>
-
-
