@@ -51,9 +51,9 @@ require_once('includes/db-config.inc.php');
                 
                 var data = google.visualization.arrayToDataTable(list);
                 var options = {
-                    title: 'Number Visits',
+                    title: 'Daily Visit Chart',
                     height: 400,
-                    hAxis: {title: 'Day',  titleTextStyle: {color: '#333'}},
+                    hAxis: {title: 'Day of the month (June)',  titleTextStyle: {color: '#333'}},
                     vAxis: {minValue: 0}
                 };
                 

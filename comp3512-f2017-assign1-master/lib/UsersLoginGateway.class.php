@@ -11,6 +11,12 @@ class UsersLoginGateway extends TableDataGateway {
                 DateJoined, DateLastModified FROM UsersLogin";
     }
     
+    protected function getInsertStatement()
+    {
+        return "INSERT INTO UsersLogin (UserName, Password, Salt, State,
+                DateJoined, DateLastModified) ";
+    }  
+    
     protected function getOrderFields() {
         return 'LastName';
     }

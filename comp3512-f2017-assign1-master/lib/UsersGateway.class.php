@@ -8,8 +8,14 @@ class UsersGateway extends TableDataGateway {
     protected function getSelectStatement()
     {
         return "SELECT UserID, FirstName, LastName, Address, City,
-                Region, Country, Postal, Email FROM Users";
+                Region, Country, Postal, Phone, Email FROM Users";
     }
+
+    protected function getInsertStatement()
+    {
+        return "INSERT INTO Users (UserID, FirstName, LastName, Address, City,
+                Region, Country, Postal, Phone, Email)";
+    }    
     
     protected function getOrderFields() {
         return 'LastName';

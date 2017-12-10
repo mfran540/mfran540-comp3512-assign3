@@ -127,12 +127,37 @@ abstract class TableDataGateway
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetch();
    } 
-public function updateInfo($id, $lastName,$email,$City,$Country)
-{
+    /*
+      Update user record
+      $_GET['address'],$_GET['region'],$_GET['postal'],$_GET['phone']
+   */
+   public function updateInfo($id, $lastName,$email,$City,$Country,$firstname,$address,$region,$postal,$phone)
+   {
+      
+      $sql =  'UPDATE Users SET lastName =:lastName , Email =:email, City =:city, Country =:country , FirstName =:firstname , Address =:address,Region =:region, Postal =:postal , Phone =:phone WHERE ' . $this->getPrimaryKeyName() . '=:id';
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id, 'lastName' => $lastName, 'email' => $email, 'city' => $City, 'country' => $Country, 'firstname' => $firstname,
+      'address' => $address, 'region' => $region, 'postal' => $postal, 'phone'=> $phone));
+   }
+
+    /*
+      Create new user record in the Users table
+   */
+   public function createUser($userid, $firstname, $lastname, $address, $city, $region, $country, $postal,$phone, $email)
+   {
+      
+      $sql = $this->getInsertStatement() . 'VALUES (:userid, :firstname, :lastname, :address, :city, :region, :country, :postal, :phone, :email)';
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array('userid' => $userid, 'firstname' => $firstname, 'lastname' => $lastname, 'address' => $address, 'city' => $city, 'region' => $region, 'country' => $country, 'postal' => $postal, 'phone' => $phone, 'email' => $email));
+   }
    
-   $sql =  'UPDATE Users SET lastName =:lastName , Email =:email, City =:city, Country =:country WHERE ' . $this->getPrimaryKeyName() . '=:id';
-   $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id, 'lastName' => $lastName, 'email' => $email, 'city' => $City, 'country' => $Country));
-}
+    /*
+      Create new user record in the Login table
+   */
+   public function createUserLogin($username, $password, $salt, $state, $datejoined, $lastmodified)
+   {
+
+      $sql = $this->getInsertStatement() . 'VALUES (:username, :password, :salt, :state, :datejoined, :lastmodified)';
+      $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':username' => $username, 'password' => $password, 'salt' => $salt, 'state' => $state, 'datejoined' => $datejoined, 'lastmodified' => $lastmodified));
+   }
    
    /*
       Returns a list of records with the specified lastname

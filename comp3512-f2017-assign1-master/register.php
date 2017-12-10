@@ -5,27 +5,50 @@ require_once('includes/db-config.inc.php');
 
 $usersDB = new UsersGateway($connection ); 
 $usersLoginDB = new UsersLoginGateway($connection ); 
-$matchingPasswords = true;
 
-function checkUserInfo(){
+
+function checkUserInfo($usersDB,$usersLoginDB){
+    global $matchingPasswords;
+    global $existingUser;
+    
+    $usersDB = $usersDB;
+    $usersLoginDB = $usersLoginDB;
+    
     if(isset($_POST['password']) && isset($_POST['password2'])){
         if($_POST['password']!=$_POST['password2']){
-            //echo "<h4 margin:auto;'>Password's do not match, Please try again</h4>";
+            echo "<p style='background-color:red;color:white; margin:auto;'>Password's do not match, Please try again</p>";
             $matchingPasswords = false;
+        }
+        else{
+            $matchingPasswords = true;
         }
     }
     
     if(isset($_POST['email'])){
+        $row = $usersLoginDB->findByID($_POST['email']);
         
+        if($row['UserName']==$_POST['email']){
+            $existingUser = true;
+            echo "<p style='background-color:red;color:white; margin:auto;'>Email is already in use.</p>";
+        }
+        else{
+            $existingUser = false;
+        }
+    }
+    
+    if($matchingPasswords == true && $existingUser == false){
+        $salt = md5(microtime());
+        $password = md5($_POST['password'].$salt);
+        $date = date("Ymd");
+        $usersLoginDB->createUserLogin($_POST['email'], $password, $salt, '1', $date, $date);
+        $row = $usersLoginDB->findByID($_POST['email']);
+        
+        $usersDB->createUser($row['UserID'],$_POST['firstname'], $_POST['lastname'], $_POST['address'], $_POST['city'], $_POST['region'], $_POST['country'], $_POST['postal'], $_POST['phone'], $_POST['email']);
+        echo "<p style='background-color:green;color:white; margin:auto;'>Account has been created! You may now login.</p>";
     }
 }
 
-function addUser($userDB, $userLoginDB){
-    $usersDB->createUser();
-    $userLoginDB->createUserLogin();
-}
-
-checkUserInfo();
+checkUserInfo($usersDB,$usersLoginDB);
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +98,20 @@ checkUserInfo();
                 }
             }
         }
+        
+        function checkPass (e){
+            var password1 = document.querySelectorAll(".pass1");
+            var password2 = document.querySelectorAll(".pass2");
+            var pass1 = password1.value;
+            var pass2 = password2.value;
+            
+            if(pass1 == pass2){
+                password1.appendChild("<p>Password's match!</p>");
+            }
+            else{
+                password1.appendChild("<p>Password's do not match!</p>");
+            }
+        }
 
         window.addEventListener("load", function(){
                 var highlightedbox = document.querySelectorAll(".hilightable");
@@ -84,7 +121,7 @@ checkUserInfo();
                 }
         
                 document.getElementById("mainForm").addEventListener("submit", checkerror); 
-                document.getElementById("mainForm").addEventListener("submit", checkPass);
+                document.querySelectorAll(".pass2").addEventListener("keyup", checkPass);
         });
 </script>
 </head>
@@ -143,16 +180,17 @@ checkUserInfo();
                             <input class="required hilightable mdl-textfield__input" type="text" name="phone">
                             </div>
                             
+                            <!--I googled the right pattern for an email "https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute" -->
                             <div class="mdl-textfield mdl-js-textfield">Email: 
-                            <input class="required hilightable mdl-textfield__input" type="text" name="email">
+                            <input class="required hilightable mdl-textfield__input" type="text" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" name="email">
                             </div>
                             
                             <div class="mdl-textfield mdl-js-textfield">Password: 
-                            <input class="pass1 required hilightable mdl-textfield__input" type="text" name="password">
+                            <input class="pass1 required hilightable mdl-textfield__input" type="password" name="password">
                             </div>
 
                             <div class="mdl-textfield mdl-js-textfield">Re-enter Password: 
-                            <input class="pass2 required hilightable mdl-textfield__input" type="text" name="password2">
+                            <input class="pass2 required hilightable mdl-textfield__input" type="password" name="password2">
                             </div>
                             
                             <div>
