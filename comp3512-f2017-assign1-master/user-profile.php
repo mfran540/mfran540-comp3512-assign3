@@ -4,7 +4,10 @@ require_once('includes/db-config.inc.php');
 
 //connections to each gateway class (ie. table in Database)
 $usersDB = new UsersGateway($connection ); 
-
+$lastname ="";
+$email="";
+$city="";
+$country="";
 /*
     Prints the information of the user who is logged in
 */
@@ -16,8 +19,18 @@ function printUserInfo($id,$usersDB)
         echo $row['City'] . ', ' . $row['Region'] . '<br>';
         echo $row['Country'] . ', ' . $row['Postal'] . '<br>';
         echo $row['Email'];
-    
+        
+        global $lastname;
+        global $email;
+        global $city;
+        global $country;
+        $lastname = $row["LastName"];
+        $email = $row['Email'];
+         $city = $row['City'];
+          $country = $row['Country'];
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +48,8 @@ function printUserInfo($id,$usersDB)
     <link rel="stylesheet" href="css/styles.css">
     
     
-    <script   src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-1.7.2.min.js" ></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
        
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     
@@ -72,21 +86,72 @@ function printUserInfo($id,$usersDB)
                         <!-- Flat button with ripple -->
                        
                     </div>
-                     <form action="#">
-  <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" id="sample1">
-    <label class="mdl-textfield__label" for="sample1">Text...</label>
+                    <button   class="mdl-button mdl-js-button mdl-js-ripple-effect" id="formUpdate">
+                      Edit 
+                    </button>
+                     <form method="GET" action="update.php" id="mainForm" >
+                       
+                         
+        <div class="mdl-textfield mdl-js-textfield">Last Name: 
+   <input class="mdl-textfield__input" type="text" name="lastname" value= <?php echo '"'.$lastname.'"'; ?> disabled="disabled" class="required hilightable">
+    
+  </div>
+    <div class="mdl-textfield mdl-js-textfield">City:
+    <input class="mdl-textfield__input" type="text" name="city" value=<?php echo '"'.$city.'"'; ?> disabled="disabled" class="required hilightable">
+    
+  </div>
+  
+  <div class="mdl-textfield mdl-js-textfield">Country: 
+    <input class="mdl-textfield__input" type="text" name="country" value=<?php echo '"'.$country.'"'; ?> disabled="disabled" class="required hilightable">
+    
+  </div>
+  <div class="mdl-textfield mdl-js-textfield">Email: 
+      <!--I googled the right pattern for an email "https://stackoverflow.com/questions/5601647/html5-email-input-pattern-attribute" -->
+    <input class="mdl-textfield__input" type="text" name="email" value= <?php echo '"'.$email.'"';?>disabled="disabled" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" class="required hilightable">
+    
+  </div>
+  <div>
+  <input type="Submit" name="submit" disabled="disabled" class="mdl-button mdl-js-button mdl-js-ripple-effect"/>
   </div>
 </form>
-<button class="mdl-button mdl-js-button mdl-js-ripple-effect">
-  Button
-</button>
+
 
                 </div>
             </div>
         </section>
     </main>    
 </div>    <!-- / mdl-layout --> 
+<script>
+    
+function init() {
+    document.getElementById("formUpdate").addEventListener("click", function(){
+    
+         var fields = document.querySelectorAll("form input");
+         
+    for (var i=0; i<fields.length; i++) {
+       
+            fields[i].removeAttribute("disabled");
+            fields[i].style.color = "black";
+        
+    }
+        
+        
+    });
+}
+
+window.addEventListener("load", init);
+
+function checkForEmptyFields(e){
+    var fields = document.querySelectorAll(".required");
+    for (var i=0; i<fields.length; i++) {
+        if (fields[i].value == null || fields[i].value =='') {
+            e.preventDefault();
+            fields[i].classList.add("error");
+        }
+    }
+}
+    
+</script> 
           
 </body>
 </html>

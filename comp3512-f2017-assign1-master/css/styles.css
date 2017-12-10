@@ -1,3 +1,7 @@
+#mainForm{
+    margin: 0 auto; 
+    width:300px;
+}
 header h1.mdl-layout-title {
     font-size: 32px;
     color: white;
@@ -217,24 +221,28 @@ main header h4 {
   }
   
   .error {
-    background: #FFCDD2 no-repeat 98% center;
+    background: #FFCDD2 url(images/error.png) no-repeat 98% center;
     box-shadow: 0 0 5px #FF5252;
     border-color: #FF1744;    
-}
+  }
 
-.highlight {
+  .highlight {
     background-color: #FFE0B2;
-}  
+  }    
 
-#regions_div, #chart_div {
-  margin:auto;
-}
-
-#fifteen {
-  margin-top:15px;
-  width:100%;
-}
-
-#top15visits {
-  height:175px;
-}
+  #regions_div, #chart_div {
+    margin:auto;
+  }
+  
+  #fifteen {
+    margin-top:15px;
+    width:100%;
+  }
+  
+  #top15visits {
+    height:175px;
+  }
+  .required hilightable {
+    padding-left:5px;
+    
+  }

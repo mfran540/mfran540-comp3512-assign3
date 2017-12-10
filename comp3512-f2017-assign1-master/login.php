@@ -58,6 +58,7 @@ function getLoginForm(){
                 <input type='password' name='pword' placeholder='Password' class='form-control'/>
             </div>
             <input type='submit' value='Login' class='form-control' />
+            <p><a href='register.php'> Register an account</a></p>
         </form>";
         
     }
@@ -71,6 +72,7 @@ function getLoginForm(){
                 <input type='password' name='pword' placeholder='Password' class='form-control error'/>
             </div>
             <input type='submit' value='Login' class='form-control' />
+            <p><a href='register.php'> Register an account</a></p>
             <h5 style='color:red;'>Login unsuccessful, please try again.</h5>
         </form>";
     }

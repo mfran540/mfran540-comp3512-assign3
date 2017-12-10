@@ -127,6 +127,12 @@ abstract class TableDataGateway
       $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id));
       return $statement->fetch();
    } 
+public function updateInfo($id, $lastName,$email,$City,$Country)
+{
+   
+   $sql =  'UPDATE Users SET lastName =:lastName , Email =:email, City =:city, Country =:country WHERE ' . $this->getPrimaryKeyName() . '=:id';
+   $statement = DatabaseHelper::runQuery($this->connection, $sql, Array(':id' => $id, 'lastName' => $lastName, 'email' => $email, 'city' => $City, 'country' => $Country));
+}
    
    /*
       Returns a list of records with the specified lastname
