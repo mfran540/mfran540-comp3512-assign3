@@ -98,20 +98,6 @@ checkUserInfo($usersDB,$usersLoginDB);
                 }
             }
         }
-        
-        function checkPass (e){
-            var password1 = document.querySelectorAll(".pass1");
-            var password2 = document.querySelectorAll(".pass2");
-            var pass1 = password1.value;
-            var pass2 = password2.value;
-            
-            if(pass1 == pass2){
-                password1.appendChild("<p>Password's match!</p>");
-            }
-            else{
-                password1.appendChild("<p>Password's do not match!</p>");
-            }
-        }
 
         window.addEventListener("load", function(){
                 var highlightedbox = document.querySelectorAll(".hilightable");
@@ -121,7 +107,6 @@ checkUserInfo($usersDB,$usersLoginDB);
                 }
         
                 document.getElementById("mainForm").addEventListener("submit", checkerror); 
-                document.querySelectorAll(".pass2").addEventListener("keyup", checkPass);
         });
 </script>
 </head>
